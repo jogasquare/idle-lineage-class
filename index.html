@@ -3735,16 +3735,21 @@ const STATUS_NAME = { freeze:'冰凍', stun:'暈眩', stone:'石化', sleep:'沉
 const STATUS_MSG = { magicseal:'的魔法遭到封印了。' };
 // 對 BOSS 無效的行動限制類狀態
 const BOSS_IMMUNE = ['freeze','stun','stone','sleep'];
+// 異常魔法命中判定（玩家對怪物，共用）：命中值 = 玩家等級 + 魔法命中 − (怪等級−10) − 怪MR/5，
+// clamp[0,20]，擲 1d20（與一般攻擊相同：擲20必中、擲1必失、其餘 命中值≥骰值 即命中），命中率 5%~95%。
+function abnormalMagicHit(m) {
+    let hv = player.lv + (player.d.magicHit || 0) - ((m.lv || 0) - 10) - ((m.mr || 0) / 5);
+    hv = Math.max(0, Math.min(20, hv));
+    let r = roll(1, 20);
+    return (r === 20) || (r !== 1 && hv >= r);
+}
 function applyMobStatus(m, st, skillName) {
     if(!m.st) m.st = newMobStatus();
     if(BOSS_IMMUNE.includes(st.kind) && m.boss) return;
-    // 異常狀態命中判定（與「敵方對我方」對稱）：命中率% = max(0, (pbase − 敵人MR) / 2)
-    //   優先使用 pbase（會被敵人魔抗 MR 抵抗）；若無 pbase 但有 p 則沿用舊的固定機率；兩者皆無則必中。
-    if(st.pbase !== undefined) {
-        let chance = Math.max(0, (st.pbase - (m.mr || 0)) / 2);
-        if(Math.random() * 100 >= chance) return;
-    } else if(st.p !== undefined) {
-        if(Math.random() > st.p) return;
+    // 異常狀態魔法命中（玩家對怪物）：見 abnormalMagicHit
+    if(!abnormalMagicHit(m)) {
+        logCombat(`<span class="${getMobColor(m.lv)}">${m.n}</span> 抵抗了${skillName || '異常狀態'}。`, 'miss');
+        return;
     }
     // 持續時間：支援固定 dur(秒) 或隨機 durRand:[最小,最大]（秒）
     let durSec = st.durRand ? roll(st.durRand[0], st.durRand[1]) : (st.dur || 6);
@@ -3780,7 +3785,7 @@ function tryInstakill(m, ik, skillName, idx) {
     // 👇 加上 ik.tag 的存在判定：只有在規定了特定 tag 時，才去檢查怪物有沒有該 tag
     if(ik.tag && !mobHasTag(m, ik.tag)) return false; 
     
-    if(Math.random() > (ik.p === undefined ? 1 : ik.p)) return false;
+    if(!abnormalMagicHit(m)) return false;   // 即死改用異常魔法命中公式（等級/魔法命中/怪MR 決定 5%~95%）
     
     logCombat(`${skillName} 使 <span class="${getMobColor(m.lv)}">${m.n}</span> 立即死亡！`, 'player-crit');
     m.curHp = 0; 
@@ -3963,7 +3968,7 @@ function manualCast(skId) {
         if(!t) { logSys('沒有目標。'); return; }
         if(t.boss) { logSys('無法魅惑 BOSS。'); return; }
         player.mp -= cost; cost = 0;
-        if(Math.random() < 0.4) {
+        if(abnormalMagicHit(t)) {
             let idx = mapState.mobs.findIndex(m => m && m.uid === t.uid);
             player.skills.forEach(s => { let d = DB.skills[s]; if(d && d.summon) player.buffs[s] = 0; });
             player.buffs['sk_charm'] = 3600;
