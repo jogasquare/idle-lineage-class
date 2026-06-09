@@ -1227,7 +1227,7 @@ const DB = {
 
         // 二階魔法 (Lv 8)
         "sk_antidote": { n: "解毒術", type: "heal", tier: 2, reqM: 8, reqE: 16, mp: 8, msg: "你感覺毒素消退了。" },
-        "sk_cold_shiver": { n: "寒冷戰慄", type: "atk", tier: 2, reqM: 8, reqE: 16, mp: 9, dmgType: "magic", ele: "none", dmgDice: [1, 8], lifesteal: true },
+        "sk_cold_shiver": { n: "寒冷戰慄", type: "atk", tier: 2, reqM: 8, reqE: 16, mp: 9, dmgType: "magic", ele: "none", dmgDice: [1, 8], lifesteal: true, healSlot: true },
         "sk_poison_curse": { n: "毒咒", type: "atk", tier: 2, reqM: 8, reqE: 16, mp: 10, dmgType: "magic", status: { kind: "poison", pbase: 100, dur: 15, tick: 3, dmg: [1, 8] }, msg: "你使目標中毒了。" },
         "sk_ench_wpn": { n: "擬似魔法武器", type: "buff", tier: 2, reqM: 8, reqE: 16, mp: 20, dur: 1800, d: { extraDmg: 2 }, msg: "你的武器暫時被注入了魔法力量。" },
         "sk_reveal": { n: "無所遁形術", type: "buff", tier: 2, reqM: 8, reqE: 16, mp: 8, dur: 180 },
@@ -1248,7 +1248,7 @@ const DB = {
         // 四階魔法 (Lv 16)
         "sk_dex_up": { n: "通暢氣脈術", type: "buff", tier: 4, reqM: 16, reqE: 32, mp: 45, dur: 1200, d: { dex: 5 }, msg: "你覺得身手變得更靈活。" },
         "sk_break": { n: "壞物術", type: "atk", tier: 4, reqM: 16, reqE: 32, mp: 20, dmgType: "magic", status: { kind: "broken", pbase: 150, dur: 25 } },
-        "sk_vampire": { n: "吸血鬼之吻", type: "atk", tier: 4, reqM: 16, reqE: 32, mp: 13, dmgType: "magic", ele: "none", dmgDice: [2, 8], lifesteal: true },
+        "sk_vampire": { n: "吸血鬼之吻", type: "atk", tier: 4, reqM: 16, reqE: 32, mp: 13, dmgType: "magic", ele: "none", dmgDice: [2, 8], lifesteal: true, healSlot: true },
         "sk_slow": { n: "緩速術", type: "atk", tier: 4, reqM: 16, reqE: 32, mp: 20, dmgType: "magic", status: { kind: "slow", pbase: 150, dur: 30 } },
         "sk_rock_prison": { n: "岩牢", type: "atk", tier: 4, reqM: 16, reqE: 32, mp: 11, dmgType: "magic", ele: "earth", target: "all", dmgDice: [4, 5] },
         "sk_magic_shield": { n: "魔法屏障", type: "buff", tier: 4, reqM: 16, reqE: 32, mp: 16, dur: 16 },
@@ -1579,10 +1579,10 @@ const DB = {
         '食人妖精王': [['wpn_battleaxe',3], ['wpn_10',2], ['wpn_giantaxe',0.5], ['wpn_berserker',0.02], ['arm_61',0.5], ['arm_47',0.05], ['scroll_weapon',1], ['scroll_armor',1.5], ['new_item_158',0.5], ['bk_fireball',0.5], ['bk_break',0.5], ['bk_holy_light',0.1], ['potion_blue',1], ['bk_disease',0.1], ['bk_shock_stun',0.01]],
         '食屍鬼': [['scroll_weapon',0.1], ['bk_berserk',0.01], ['new_item_204',1], ['new_item_205',1]],
         '馬庫爾': [['arm_87',5], ['arm_90',10], ['arm_56',1], ['acc_116',0.01], ['amu_str',0.1], ['scroll_weapon',10], ['scroll_armor',20], ['scroll_acc',1], ['new_item_150',1], ['new_item_160',5], ['new_item_161',0.5], ['new_item_162',0.1], ['potion_blue',1], ['bk_elf_soul',1], ['bk_elf_lifespring',1]],
-        '骷髏': [['wpn_scimitar',1], ['arm_42',5], ['clk_mr',0.1], ['arm_105',0.5], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.01], ['new_item_183',3], ['new_item_203',1], ['new_item_214',1]],
-        '骷髏弓箭手': [['wpn_3',1], ['arm_42',3], ['clk_mr',0.1], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.01], ['new_item_183',3]],
-        '骷髏斧手': [['wpn_1',5], ['arm_42',3], ['clk_mr',0.3], ['potion_haste',1], ['new_item_150',1], ['new_item_183',5]],
-        '骷髏槍兵': [['wpn_4',3], ['arm_42',3], ['clk_mr',0.3], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.01], ['new_item_183',3]],
+        '骷髏': [['wpn_scimitar',1], ['arm_42',5], ['clk_mr',0.1], ['arm_105',0.5], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.01], ['new_item_183',50], ['new_item_203',1], ['new_item_214',1]],
+        '骷髏弓箭手': [['wpn_3',1], ['arm_42',3], ['clk_mr',0.1], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.01], ['new_item_183',50]],
+        '骷髏斧手': [['wpn_1',5], ['arm_42',3], ['clk_mr',0.3], ['potion_haste',1], ['new_item_150',1], ['new_item_183',50]],
+        '骷髏槍兵': [['wpn_4',3], ['arm_42',3], ['clk_mr',0.3], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.01], ['new_item_183',50]],
         '骷髏神射手': [['wpn_3',3], ['arm_42',3], ['clk_mr',1], ['arm_105',2], ['acc_120',0.001], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.05], ['bk_charm',0.1], ['new_item_212',1]],
         '骷髏警衛': [['wpn_14',2], ['arm_42',3], ['clk_mr',1], ['arm_105',2], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.05], ['bk_charm',0.1], ['new_item_212',0.1]],
         '骷髏鬥士': [['wpn_battleaxe',3], ['arm_42',3], ['clk_mr',1], ['arm_105',2], ['potion_haste',1], ['new_item_150',1], ['bk_dex_up',0.05], ['bk_haste_spell',0.1], ['bk_solid_shield',0.01]],
@@ -5352,8 +5352,8 @@ function renderSkillSelects() {
         
         let dis = isAvail ? '' : 'disabled class="text-slate-500"';
         
-        if(sk.type === 'atk') aHtml += `<option value="${sid}" ${dis}>${sk.n}</option>`;
-        if(sk.type === 'heal' && !sk.autoBuff && !['sk_antidote','sk_holy_light','sk_cancel'].includes(sid)) hHtml += `<option value="${sid}" ${dis}>${sk.n}</option>`;
+        if(sk.type === 'atk' && !sk.healSlot) aHtml += `<option value="${sid}" ${dis}>${sk.n}</option>`;
+        if((sk.type === 'heal' && !sk.autoBuff && !['sk_antidote','sk_holy_light','sk_cancel'].includes(sid)) || (sk.type === 'atk' && sk.healSlot)) hHtml += `<option value="${sid}" ${dis}>${sk.n}</option>`;
         let __isPurify = (sid === 'sk_antidote' || sid === 'sk_holy_light' || sid === 'sk_cancel');
         if(sk.type === 'buff' || (sk.type === 'heal' && sk.autoBuff) || __isPurify) {
             let checked = document.getElementById(`auto-sk-${sid}`)?.checked ? 'checked' : '';
