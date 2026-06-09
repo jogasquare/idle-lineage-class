@@ -700,12 +700,13 @@ const DB = {
         "item_ancientkey": { n: "古代鑰匙", p: 1, c: "text-amber-300", d: "試煉所需的材料。", gachaWeight: 0 },
         "item_nightvision": { n: "夜之視野", p: 1, c: "text-indigo-300", d: "試煉所需的材料。", gachaWeight: 0 },
         "candle": { n: "回憶蠟燭", type: "misc", req: "all", p: 100000, c: "text-red-500", d: "退還所有能力點數，重新分配", eff: "reset", gachaWeight: 0 },
-        "panacea_str": { n: "萬能藥(STR)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升力量+1，直到使用回憶蠟燭為止（最多10瓶，不可突破屬性上限60）", eff: "panacea", pstat: "str", plv: 50, gachaWeight: 0 },
-        "panacea_dex": { n: "萬能藥(DEX)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升敏捷+1，直到使用回憶蠟燭為止（最多10瓶，不可突破屬性上限60）", eff: "panacea", pstat: "dex", plv: 50, gachaWeight: 0 },
-        "panacea_con": { n: "萬能藥(CON)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升體質+1，直到使用回憶蠟燭為止（最多10瓶，不可突破屬性上限60）", eff: "panacea", pstat: "con", plv: 50, gachaWeight: 0 },
-        "panacea_int": { n: "萬能藥(INT)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升智力+1，直到使用回憶蠟燭為止（最多10瓶，不可突破屬性上限60）", eff: "panacea", pstat: "int", plv: 50, gachaWeight: 0 },
-        "panacea_wis": { n: "萬能藥(WIS)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升精神+1，直到使用回憶蠟燭為止（最多10瓶，不可突破屬性上限60）", eff: "panacea", pstat: "wis", plv: 50, gachaWeight: 0 },
-        "panacea_cha": { n: "萬能藥(CHA)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升魅力+1，直到使用回憶蠟燭為止（最多10瓶，不可突破屬性上限30）", eff: "panacea", pstat: "cha", plv: 50, gachaWeight: 0 },
+        "panacea_str": { n: "萬能藥(STR)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升力量+1，直到使用回憶蠟燭為止（最多20瓶，不可突破屬性上限60）", eff: "panacea", pstat: "str", plv: 50, gachaWeight: 0 },
+        "panacea_dex": { n: "萬能藥(DEX)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升敏捷+1，直到使用回憶蠟燭為止（最多20瓶，不可突破屬性上限60）", eff: "panacea", pstat: "dex", plv: 50, gachaWeight: 0 },
+        "panacea_con": { n: "萬能藥(CON)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升體質+1，直到使用回憶蠟燭為止（最多20瓶，不可突破屬性上限60）", eff: "panacea", pstat: "con", plv: 50, gachaWeight: 0 },
+        "panacea_int": { n: "萬能藥(INT)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升智力+1，直到使用回憶蠟燭為止（最多20瓶，不可突破屬性上限60）", eff: "panacea", pstat: "int", plv: 50, gachaWeight: 0 },
+        "panacea_wis": { n: "萬能藥(WIS)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升精神+1，直到使用回憶蠟燭為止（最多20瓶，不可突破屬性上限60）", eff: "panacea", pstat: "wis", plv: 50, gachaWeight: 0 },
+        "panacea_white": { n: "純白的萬能藥", type: "misc", req: "all", p: 5000, c: "text-slate-100", d: "純白無瑕的萬能藥原料。使用回憶蠟燭重置配點時，依已使用過的萬能藥瓶數獲得。可在象牙塔的塔斯處，以 3 個製作成任一屬性的萬能藥。", gachaWeight: 10 },
+        "panacea_cha": { n: "萬能藥(CHA)", type: "misc", req: "all", p: 10000, c: "text-pink-300", d: "50等才能使用，可永久提升魅力+1，直到使用回憶蠟燭為止（最多20瓶，不可突破屬性上限30）", eff: "panacea", pstat: "cha", plv: 50, gachaWeight: 0 },
         
         "new_item_142": { n: "哨子", type: "pot", req: "all", p: 165, d: "可用於呼叫或解散寵物", eff: "whistle", gachaWeight: 0 },
         "new_item_collar_husky": { n: "項圈 (哈士奇)", p: 10, gachaWeight: 0 },
@@ -1209,7 +1210,8 @@ const DB = {
             n: "象牙塔",
             npcs: [
                 { id: "npc_paro", n: "帕羅", title: "雜貨商人", type: "shop", d: "販售各種日常消耗品。" },
-                { id: "npc_taras", n: "塔拉斯", title: "試煉", type: "quest", d: "法師的試煉：收集不死族的遺物換取專屬魔杖。" }
+                { id: "npc_taras", n: "塔拉斯", title: "試煉", type: "quest", d: "法師的試煉：收集不死族的遺物換取專屬魔杖。" },
+                { id: "npc_tas", n: "塔斯", title: "製作", type: "craft", d: "以 3 個純白的萬能藥，製作任一屬性的萬能藥。" }
             ]
         },
         "town_witon": {
@@ -1887,6 +1889,7 @@ function logCombat(msg, type="player") {
     if (type === "player") { colorClass = "text-blue-300"; } // 我方普攻 (淺藍)
     else if (type === "player-heavy") { colorClass = "text-yellow-300 font-bold"; } // 我方重擊 (黃色粗體)
     else if (type === "player-crit") { colorClass = "text-yellow-500 font-bold"; } // 我方爆擊 (橘黃粗體)
+    else if (type === "player-graze") { colorClass = "text-blue-300/60"; } // 我方擦傷 (比一般命中更淡的藍)
     else if (type === "enemy") { colorClass = "text-red-400"; } // 敵方攻擊 (紅色)
     else if (type === "magic") { colorClass = "text-cyan-300"; } // 魔法技能 (青色)
     else if (type === "heal") { colorClass = "text-green-300"; } // 恢復效果 (綠色)
@@ -3125,7 +3128,7 @@ function playerAttack() {
         if(result.heavy && result.crit) { tag = 'player-crit'; ext = ' (會心一擊!)'; }
         else if(result.crit) { tag = 'player-crit'; ext = ' (爆擊!)'; }
         else if(result.heavy) { tag = 'player-heavy'; ext = ' (重擊!)'; }
-        else if(result.graze) { ext = ' (擦傷!)'; }
+        else if(result.graze) { tag = 'player-graze'; ext = ' (擦傷!)'; }
 
         // 簡化戰鬥資訊，不顯示遠/近距離[cite: 8]
         logCombat(`${killPrefix}命中 <span class="${getMobColor(target.lv)}">${target.n}</span>，造成 ${result.dmg} 點傷害。${ext}`, tag);
@@ -4283,7 +4286,7 @@ function autoActions() {
     // 瞬間移動卷軸：戰鬥中出現 BOSS 時自動使用（自動使用必定為未裝備傳送控制戒指的傳送術效果）
     {
         let tChk = document.getElementById('set-teleport');
-        if (tChk && tChk.checked && mapState.mobs.some(m => m && m.boss)) {
+        if (tChk && tChk.checked && mapState.mobs.some(m => m && m.boss) && !isSiegeArea(mapState.current) && !PURE_BOSS_MAPS.includes(mapState.current)) {   // 攻城區與純BOSS房(安塔瑞斯/法利昂/巴拉卡斯)：BOSS為目標，不自動瞬移
             let item = player.inv.find(i => i.id === 'scroll_teleport');
             if (!item) {
                 let buyChk = document.getElementById('set-auto-buy-teleport');
@@ -4318,13 +4321,13 @@ function autoActions() {
         }
     });
 
-    // 輔助：心靈轉換 / 魂體轉換 自動轉換（每 3 秒一次；HP < 30% 時暫停；MP 已滿則不轉換）
-    if(state.ticks % 30 === 0 && hpPct >= 30) {
+    // 輔助：心靈轉換 / 魂體轉換 自動轉換（每 3 秒一次；HP < 30% 暫停；安全區(村莊)暫停；MP 達 90% 以上不轉換）
+    if(state.ticks % 30 === 0 && hpPct >= 30 && !mapState.current.startsWith('town_')) {
         player.skills.forEach(sid => {
             let sk = DB.skills[sid];
             if(sk.type !== 'convert') return;
             let chk = document.getElementById(`auto-sk-${sid}`);
-            if(chk && chk.checked && player.mp < player.mmp) castSkill(sid);
+            if(chk && chk.checked && player.mp < player.mmp * 0.9) castSkill(sid);
         });
     }
 }
@@ -4596,12 +4599,12 @@ function useItem(u, silent = false) {
             const STAT_CN = { str:'力量', dex:'敏捷', con:'體質', int:'智力', wis:'精神', cha:'魅力' };
             let st = d.pstat, cap = (st === 'cha') ? 30 : 60;
             if (d.plv && player.lv < d.plv) { if(!silent) logSys(`等級不足，需要等級 ${d.plv} 才能使用 ${d.n}。`); return; }
-            if ((player.panaceaUsed || 0) >= 10) { if(!silent) logSys(`萬能藥最多只能使用 10 瓶，使用回憶蠟燭後可重新使用。`); return; }
+            if ((player.panaceaUsed || 0) >= 20) { if(!silent) logSys(`萬能藥最多只能使用 20 瓶，使用回憶蠟燭後可重新使用。`); return; }
             if (naturalStat(st) >= cap) { if(!silent) logSys(`${STAT_CN[st]}已達上限（${cap}），無法再使用 ${d.n}。`); return; }
             if (!player.panacea) player.panacea = { str:0, dex:0, con:0, int:0, wis:0, cha:0 };
             player.panacea[st] = (player.panacea[st] || 0) + 1;
             player.panaceaUsed = (player.panaceaUsed || 0) + 1;
-            if(!silent) logSys(`使用了 ${d.n}，${STAT_CN[st]} 永久 +1！（萬能藥已使用 ${player.panaceaUsed}/10）`);
+            if(!silent) logSys(`使用了 ${d.n}，${STAT_CN[st]} 永久 +1！（萬能藥已使用 ${player.panaceaUsed}/20）`);
             // 落到下方 consume(item) + calcStats()，由 useItem 結尾 updateUI 刷新
         } else if (d.eff === 'reset') {
             if(confirm("確定重置所有配點？")) resetStatsCandle();
@@ -5540,7 +5543,7 @@ function openModal(item, isEq, slot) {
     if (isEq) {
         act += `<button class="col-span-2 w-full btn border-red-700 bg-red-900 hover:bg-red-800 text-red-200 py-3 text-lg font-bold" onclick="unequipItem('${slot}')">卸除</button>`;
     } else {
-        if(d.type === 'pot' || d.type === 'skillbk') {
+        if(d.type === 'pot' || d.type === 'skillbk' || d.eff === 'panacea') {   // 萬能藥(misc/eff=panacea)亦顯示使用按鈕
             act += `<button class="col-span-2 w-full btn border-green-700 bg-emerald-800 hover:bg-emerald-700 text-green-100 py-3 text-lg font-bold" onclick="useItem('${item.uid}')">使用</button>`;
         }
         if(d.type === 'scroll') {
@@ -6259,7 +6262,7 @@ function interactNPC(npcId, townId) {
         renderFinnCraft(contentDiv, npc.id);
     } else if (npc.id === 'npc_joel' || npc.id === 'npc_ryan') { 
         renderJoelCraft(contentDiv, npc.id);
-    } else if (['npc_nalien', 'npc_rekne', 'npc_narupa', 'npc_elfqueen', 'npc_elf', 'npc_ent', 'npc_pan', 'npc_moliya', 'npc_hector', 'npc_herbert', 'npc_lumiel', 'npc_ibelbin'].includes(npc.id)) {
+    } else if (['npc_nalien', 'npc_rekne', 'npc_narupa', 'npc_elfqueen', 'npc_elf', 'npc_ent', 'npc_pan', 'npc_moliya', 'npc_hector', 'npc_herbert', 'npc_lumiel', 'npc_ibelbin', 'npc_tas'].includes(npc.id)) {
         renderUniversalCraft(contentDiv, npc.id);
     } else if (npc.id === 'npc_os') {
         renderOsQuest(contentDiv);
@@ -7487,7 +7490,9 @@ function resetStatsCandle() {
     // 還原為「創角時的初始狀態」：base = 純職業起始能力（不含創角分配）
     player.base = { str: b.str, dex: b.dex, con: b.con, int: b.int, wis: b.wis, cha: b.cha };
     player.alloc = { str:0, dex:0, con:0, int:0, wis:0, cha:0 };
+    let _usedPanacea = player.panaceaUsed || 0;   // 重置前先記錄已使用的萬能藥瓶數
     player.panacea = { str:0, dex:0, con:0, int:0, wis:0, cha:0 }; player.panaceaUsed = 0;   // 回憶蠟燭同時清空萬能藥的加成與使用次數
+    if (_usedPanacea > 0) { gainItem('panacea_white', _usedPanacea, true, true); logSys(`回收已使用的萬能藥，獲得 <span class="text-slate-100 font-bold">純白的萬能藥</span> ×${_usedPanacea}。`); }
     // 可重新分配的點數 = 創角可分配點數 + (等級-49) 升級點數
     player.bonus = b.pts + Math.max(0, player.lv - 49);
     // 重置點數時：自動賣出背包內所有項圈，並解除對應夥伴
@@ -7510,6 +7515,14 @@ function resetStatsCandle() {
 
 // 1. 定義製作配方
 const CRAFT_RECIPES = {
+    npc_tas: [
+        { result: 'panacea_str', req: [{ id: 'panacea_white', cnt: 3 }] },
+        { result: 'panacea_dex', req: [{ id: 'panacea_white', cnt: 3 }] },
+        { result: 'panacea_int', req: [{ id: 'panacea_white', cnt: 3 }] },
+        { result: 'panacea_con', req: [{ id: 'panacea_white', cnt: 3 }] },
+        { result: 'panacea_wis', req: [{ id: 'panacea_white', cnt: 3 }] },
+        { result: 'panacea_cha', req: [{ id: 'panacea_white', cnt: 3 }] }
+    ],
     'npc_moli': [
         {
             result: 'arm_48', // 皮帽子
@@ -7988,7 +8001,7 @@ function doCraft(npcId, recipeIdx) {
         renderFinnCraft(document.getElementById('interaction-content'), npcId);
     } else if (npcId === 'npc_joel' || npcId === 'npc_ryan') {
         renderJoelCraft(document.getElementById('interaction-content'), npcId);
-    } else if (['npc_nalien', 'npc_rekne', 'npc_narupa', 'npc_elfqueen', 'npc_elf', 'npc_ent', 'npc_pan', 'npc_moliya', 'npc_hector', 'npc_herbert', 'npc_lumiel', 'npc_ibelbin'].includes(npcId)) {
+    } else if (['npc_nalien', 'npc_rekne', 'npc_narupa', 'npc_elfqueen', 'npc_elf', 'npc_ent', 'npc_pan', 'npc_moliya', 'npc_hector', 'npc_herbert', 'npc_lumiel', 'npc_ibelbin', 'npc_tas'].includes(npcId)) {
         renderUniversalCraft(document.getElementById('interaction-content'), npcId);
     }
 
