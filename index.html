@@ -6595,6 +6595,14 @@ function whGold(dir){
 }
 function renderWarehouseNPC(div){
     _activePanel = null;   // 倉庫不需自動刷新
+    if(player.lv < 30){
+        div.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-slate-400 py-12 gap-2">
+            <span class="text-5xl mb-2">🔒</span>
+            <span class="text-xl font-bold text-slate-300">需要等級 30 才能使用倉庫</span>
+            <span class="text-sm">目前等級：${player.lv}</span>
+        </div>`;
+        return;
+    }
     let w = loadWarehouse();
     let mkBtn = (it, act) => `<button onclick="${act}('${it.uid}')" class="btn w-full text-left py-1.5 px-2 text-sm bg-slate-800 hover:bg-slate-700 border-slate-600">${getItemFullName(it)}</button>`;
     let invHtml = player.inv.length ? player.inv.map(it => WH_NO_STORE.includes(it.id)
