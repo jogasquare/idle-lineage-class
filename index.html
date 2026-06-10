@@ -502,14 +502,14 @@ const DB = {
         "wpn_1": { n: "斧", type: "wpn", dmgS: 3, dmgL: 5, hit: 0, spd: 1.2, req: "all", safe: 6, p: 28, gachaWeight: 100 },
         "wpn_2hsword": { n: "雙手劍", type: "wpn", w2h: true,dmgS: 14, dmgL: 16, hit: 0, spd: 0.9, req: "knight", safe: 6, p: 25200, eff: "cleave", gachaWeight: 10 },
         "wpn_2": { n: "釘錘", type: "wpn", dmgS: 6, dmgL: 8, hit: 0, spd: 1.3, req: "all", safe: 6, p: 133, gachaWeight: 100 },
-        "wpn_3": { n: "弓", type: "wpn", isBow: true, ranged: true, dmgS: 2, dmgL: 2, hit: 0, spd: 1.0, req: "all", safe: 6, p: 70, gachaWeight: 100 },
+        "wpn_3": { n: "弓", type: "wpn", isBow: true, ranged: true, rapidfire: 20, dmgS: 2, dmgL: 2, hit: 0, spd: 1.0, req: "all", safe: 6, p: 70, gachaWeight: 100 },
         "wpn_4": { n: "矛", type: "wpn", dmgS: 6, dmgL: 8, hit: 0, spd: 1.2, req: "all", safe: 6, p: 120, gachaWeight: 100 },
         "wpn_battleaxe": { n: "戰斧", type: "wpn", w2h: true, dmgS: 8, dmgL: 8, hit: 0, spd: 1.0, req: "knight,elf", safe: 6, p: 980, gachaWeight: 100, eff: "crush" },
         "wpn_5": { n: "箭", type: "wpn", isArrow: true, dmgS: 6, dmgL: 5, hit: 0, p: 0, gachaWeight: 0 },
         "wpn_6": { n: "巴迪須", type: "wpn", w2h: true, dmgS: 4, dmgL: 6, hit: 0, spd: 1.0, req: "knight", safe: 6, p: 56, gachaWeight: 100, eff: "pierce", pierceChance: 35 },
         "wpn_7": { n: "柴刀", type: "wpn", w2h: true, dmgS: 4, dmgL: 11, hit: 0, spd: 1.0, req: "knight", safe: 6, p: 252, gachaWeight: 100, eff: "pierce", pierceChance: 35 },
-        "wpn_elfbow": { n: "精靈弓", type: "wpn", isBow: true, ranged: true, dmgS: 2, dmgL: 2, hit: 0, dmgBonus: 1, spd: 1.0, req: "all", safe: 6, p: 620, gachaWeight: 100 },
-        "wpn_8": { n: "歐西斯弓", type: "wpn", isBow: true, ranged: true, dmgS: 2, dmgL: 2, hit: 0, dmgBonus: -1, spd: 1.0, req: "all", safe: 6, p: 30, gachaWeight: 100 },
+        "wpn_elfbow": { n: "精靈弓", type: "wpn", isBow: true, ranged: true, rapidfire: 45, dmgS: 2, dmgL: 2, hit: 0, dmgBonus: 1, spd: 1.0, req: "all", safe: 6, p: 620, gachaWeight: 100 },
+        "wpn_8": { n: "歐西斯弓", type: "wpn", isBow: true, ranged: true, rapidfire: 10, dmgS: 2, dmgL: 2, hit: 0, dmgBonus: -1, spd: 1.0, req: "all", safe: 6, p: 30, gachaWeight: 100 },
         "wpn_9": { n: "闊劍", type: "wpn", dmgS: 4, dmgL: 6, hit: 0, spd: 1.1, req: "all", safe: 6, p: 490, gachaWeight: 100 },
         "wpn_10": { n: "木棒", type: "wpn", dmgS: 6, dmgL: 3, hit: 0, spd: 1.3, req: "all", safe: 6, p: 42, gachaWeight: 100 },
         "wpn_dagger2": { n: "精靈匕首", type: "wpn", dmgS: 4, dmgL: 3, hit: 2, spd: 0.8, req: "all", safe: 6, p: 42, unBonus: true, gachaWeight: 100 },
@@ -537,12 +537,12 @@ const DB = {
         "wpn_shortsword": { n: "短劍", type: "wpn", dmgS: 6, dmgL: 8, hit: 0, spd: 1.0, req: "all", safe: 6, p: 140, gachaWeight: 100 },
         "wpn_28": { n: "三叉戟", type: "wpn", dmgS: 5, dmgL: 4, hit: 0, spd: 1.2, req: "knight,elf", safe: 6, p: 35, gachaWeight: 100 },
         "wpn_siruge": { n: "瑟魯基之劍", type: "wpn", dmgS: 16, dmgL: 10, hit: 2, spd: 1.1, req: "knight", safe: 6, p: 41196, gachaWeight: 10 },
-        "wpn_29": { n: "尤米弓", type: "wpn", isBow: true, ranged: true, dmgS: 3, dmgL: 3, hit: 0, dmgBonus: 3, spd: 1.0, req: "elf", safe: 6, p: 32680, gachaWeight: 10 },
-        "wpn_shortbow": { n: "短弓", type: "wpn", isBow: true, ranged: true, dmgS: 2, dmgL: 2, hit: 0, dmgBonus: -1, spd: 1.0, req: "all", safe: 6, p: 10, gachaWeight: 100 },
+        "wpn_29": { n: "尤米弓", type: "wpn", isBow: true, ranged: true, rapidfire: 55, dmgS: 3, dmgL: 3, hit: 0, dmgBonus: 3, spd: 1.0, req: "elf", safe: 6, p: 32680, gachaWeight: 10 },
+        "wpn_shortbow": { n: "短弓", type: "wpn", isBow: true, ranged: true, rapidfire: 10, dmgS: 2, dmgL: 2, hit: 0, dmgBonus: -1, spd: 1.0, req: "all", safe: 6, p: 10, gachaWeight: 100 },
         "wpn_30": { n: "米索莉箭", type: "wpn", isArrow: true, dmgS: 10, dmgL: 9, hit: 0, p: 1, unBonus: true, gachaWeight: 0 },
-        "wpn_31": { n: "十字弓", type: "wpn", isBow: true, ranged: true, dmgS: 3, dmgL: 2, hit: 3, dmgBonus: 2, spd: 1.0, req: "knight,elf", safe: 6, p: 59400, gachaWeight: 10 },
-        "wpn_32": { n: "獵人之弓", type: "wpn", isBow: true, ranged: true, dmgS: 2, dmgL: 2, hit: 5, dmgBonus: 1, spd: 1.0, req: "all", safe: 6, p: 11000, gachaWeight: 20 },
-		"wpn_flaming_angel": { n: "熾炎天使弓", type: "wpn", isBow: true, ranged: true, dmgS: 3, dmgL: 3, dmgBonus: 4, hit: 3, dmgBonus: 4, spd: 1.0, req: "elf", safe: 6, p: 37300, w2h: true, eff: "moonburst", gachaWeight: 1 },
+        "wpn_31": { n: "十字弓", type: "wpn", isBow: true, ranged: true, rapidfire: 50, dmgS: 3, dmgL: 2, hit: 3, dmgBonus: 2, spd: 1.0, req: "knight,elf", safe: 6, p: 59400, gachaWeight: 10 },
+        "wpn_32": { n: "獵人之弓", type: "wpn", isBow: true, ranged: true, rapidfire: 30, dmgS: 2, dmgL: 2, hit: 5, dmgBonus: 1, spd: 1.0, req: "all", safe: 6, p: 11000, gachaWeight: 20 },
+		"wpn_flaming_angel": { n: "熾炎天使弓", type: "wpn", isBow: true, ranged: true, rapidfire: 40, dmgS: 3, dmgL: 3, dmgBonus: 4, hit: 3, dmgBonus: 4, spd: 1.0, req: "elf", safe: 6, p: 37300, w2h: true, eff: "moonburst", gachaWeight: 1 },
         "wpn_redknight": { n: "紅騎士之劍", type: "wpn", dmgS: 8, dmgL: 12, hit: 0, spd: 1.1, req: "all", safe: 6, p: 2400, str: 1, gachaWeight: 20 },
         "wpn_invader": { n: "侵略者之劍", type: "wpn", dmgS: 9, dmgL: 11, hit: 0, spd: 1.1, req: "all", safe: 6, p: 3500, gachaWeight: 100 },
         "wpn_33": { n: "骰子匕首", type: "wpn", dmgS: 3, dmgL: 3, hit: 0, spd: 0.9, eff: "dice_death", req: "all", safe: 6, p: 444, gachaWeight: 10 },
@@ -557,7 +557,7 @@ const DB = {
         "wpn_oakwand": { n: "橡木魔法杖", type: "wpn", dmgS: 3, dmgL: 4, hit: 0, spd: 1.0, req: "all", safe: 6, p: 330, gachaWeight: 100, extraMpPerEn: 1 },
         "wpn_38": { n: "美基魔法杖", type: "wpn", dmgS: 4, dmgL: 5, hit: 0, spd: 1.0, req: "mage", safe: 6, p: 3500, gachaWeight: 100, extraMpPerEn: 1 },
         "wpn_witchwand": { n: "巫術魔法杖", type: "wpn", dmgS: 2, dmgL: 3, hit: 0, mdmg: 1, spd: 1.0, req: "mage", safe: 6, p: 12600, gachaWeight: 50, extraMpPerEn: 1 },
-        "wpn_strwand": { n: "力量魔法杖", type: "wpn", dmgS: 9, dmgL: 9, hit: 0, dmgBonus: 3, mdmg: -2, str: 3, spd: 1.0, req: "mage", safe: 6, p: 71500, meleeHitPerEn: 1, gachaWeight: 10 },
+        "wpn_strwand": { n: "力量魔法杖", type: "wpn", dmgS: 9, dmgL: 9, hit: 0, dmgBonus: 3, mdmg: -2, str: 3, spd: 1.0, req: "mage", safe: 6, p: 71500, meleeHitPerEn: 1, eff: "magicstrike", gachaWeight: 10 },
         "wpn_manawand": { n: "瑪那魔杖", type: "wpn", dmgS: 3, dmgL: 3, hit: -1, spd: 1.0, req: "mage", safe: 6, p: 18000, eff: "mp_drain", gachaWeight: 10 },
         "wpn_crystalwand": { n: "水晶魔杖", type: "wpn", dmgS: 1, dmgL: 1, hit: 0, spd: 1.0, req: "mage", safe: 6, p: 36000, mpR: 10, mpROverSafe: 2, gachaWeight: 20 },
         "wpn_39": { n: "潘的角", type: "wpn", dmgS: 3, dmgL: 4, hit: 0, spd: 1.2, req: "all", safe: 6, p: 10, gachaWeight: 100 },
@@ -3001,7 +3001,7 @@ function stretchHitValue(raw) {
     let hvInt = lo + ((Math.random() < (hv - lo)) ? 1 : 0);
     return Math.max(1, Math.min(20, hvInt));
 }
-function getPhysicalDmg(diceStr, target, wpn, arrowData) {
+function getPhysicalDmg(diceStr, target, wpn, arrowData, forceHeavy) {
     let isRanged = !!(wpn && wpn.ranged);
     let hitBonus = (isRanged ? player.d.rangedHit : player.d.meleeHit) + player.d.extraHit;
     let dmgBonus = (isRanged ? player.d.rangedDmg : player.d.meleeDmg);
@@ -3014,7 +3014,8 @@ function getPhysicalDmg(diceStr, target, wpn, arrowData) {
 
     let rollHit = roll(1, 20);
     let hit = false, heavy = false, graze = false, crush = false;
-    if (rollHit === 20) { hit = true; heavy = true; }
+    if (forceHeavy) { hit = true; heavy = true; }   // 魔擊：必定命中且必定重擊
+    else if (rollHit === 20) { hit = true; heavy = true; }
     else if (rollHit !== 1 && hitValue >= rollHit) hit = true;
     else if (rollHit === 19) {   // 擲到19依公式本應未命中時 → 擦傷
         hit = true;
@@ -3108,12 +3109,153 @@ function consumeArrow() {
     return DB.items[arrowId];
 }
 
+// ===== 法杖共鳴：裝備指定魔法杖時，一般攻擊(不論命中與否)有 智力/60 機率免費施展光箭 =====
+const WAND_LIGHTARROW_IDS = ['wpn_oakwand', 'wpn_38', 'wpn_witchwand', 'wpn_manawand', 'wpn_crystalwand'];
+function wandLightArrowProc(target) {
+    let wpn = player.eq.wpn;
+    if (!wpn || !WAND_LIGHTARROW_IDS.includes(wpn.id)) return;
+    if (Math.random() >= ((player.d.int || 0) / 60)) return;   // 觸發機率 = 裝備者智力 / 60
+    // 選定光箭目標：主目標仍存活則優先；若主目標已被普攻擊殺，改打場上隨機一隻存活的怪；全部清空則作罷
+    let t = (target && target.curHp > 0) ? target : null;
+    if (!t) {
+        let alive = mapState.mobs.filter(m => m && m.curHp > 0);
+        if (alive.length === 0) return;
+        t = alive[Math.floor(Math.random() * alive.length)];
+    }
+    procLightArrow(t);
+}
+// 光箭傷害：與 castSkill 單體魔法完全相同的公式(魔法/無屬性/tier1/dmgDice[1,6])，但不耗魔力、不吃冷卻
+function procLightArrow(t) {
+    let sk = DB.skills['sk_lightarrow'];
+    if (!sk || !t || t.curHp <= 0) return;
+    let effMr = (t.st && t.st.mrhalf > 0) ? (t.mr / 2) : t.mr;
+    let mrFactor = effMr <= 100 ? (100 - (effMr / 2)) / 100 : (50 - ((effMr - 100) / 10)) / 100;
+    mrFactor = Math.max(0, mrFactor);
+    let isCrit = Math.random() * 100 < player.d.magicCrit;
+    let skillTier = sk.tier || 1;
+    let spCoef = (1 + (3 * player.d.magicDmg / 16)) * (1 + (skillTier / 3));
+    let mageDmgMult = (player.cls === 'mage') ? (1.5 + skillTier / 20) : 1.0;   // 與一般攻擊魔法一致
+    let magicCritMult = isCrit ? (1 + player.d.magicCritDmg / 100) : 1.0;
+    let baseMagicDmg = roll(sk.dmgDice[0], sk.dmgDice[1]);
+    let core = baseMagicDmg * spCoef * magicCritMult;
+    let extraMagicDmg = (sk.dmgBase || 0) + player.d.extraMp;
+    let d = Math.floor((core + extraMagicDmg) * mrFactor) - (t.dr || 0);
+    d = Math.max(1, d);   // 光箭無屬性，無剋制固定加值
+    d = Math.floor(d * mageDmgMult);
+    t.curHp -= d;
+    t.justHit = 'magic';
+    if (t.st && t.st.mrhalf > 0) t.st.mrhalf = 0;
+    mobWake(t);
+    player.mp = Math.min(player.mmp, player.mp + 1);   // 共鳴觸發：恢復 1 MP
+    updateUI();
+    logCombat(`<span class="text-cyan-300 font-bold">【共鳴】</span>光箭對 <span class="${getMobColor(t.lv)}">${t.n}</span> 造成 <span class="${isCrit ? 'text-yellow-500 font-bold' : 'text-cyan-300'}">${d}</span> 點傷害。${isCrit ? ' (爆擊!)' : ''}`, 'magic');
+    if (t.curHp <= 0) {
+        let realIdx = mapState.mobs.findIndex(m => m && m.uid === t.uid);
+        if (realIdx !== -1) killMob(realIdx);
+    } else {
+        renderMobs();
+    }
+}
+// ===== 月光爆裂：對指定目標造成 1D30 + 2×強化等級 的風屬性固定傷害（不受魔法公式影響）=====
+function procMoonburst(t) {
+    if (!t || t.curHp <= 0) return;
+    let en = (player.eq.wpn && player.eq.wpn.en) || 0;
+    let mbDmg = roll(1, 30) + 2 * en;
+    let counterTxt = '';
+    if (isElementCounter('wind', t.e)) { mbDmg += 6; counterTxt = ' <span class="text-emerald-300 font-bold">(剋屬性!)</span>'; }   // 風剋水：額外 +6 固定傷害
+    t.curHp -= mbDmg;
+    t.justHit = 'wind';
+    logCombat(`<span class="font-bold" style="color:#67e8f9;text-shadow:0 0 6px #06b6d4;">【月光爆裂】</span>對 <span class="${getMobColor(t.lv)}">${t.n}</span> 造成 ${mbDmg} 點風屬性傷害！${counterTxt}`, 'player-crit');
+    if (t.curHp <= 0) {
+        let realIdx = mapState.mobs.findIndex(m => m && m.uid === t.uid);
+        if (realIdx !== -1) killMob(realIdx);
+    } else {
+        renderMobs();
+    }
+}
+// 月光爆裂 proc 判定：裝備熾炎天使弓時 8% 觸發；主目標已死則轉移到場上隨機存活怪（與共鳴相同）
+function moonburstProc(target) {
+    let wpn = player.eq.wpn ? DB.items[player.eq.wpn.id] : null;
+    if (!wpn || wpn.eff !== 'moonburst') return;
+    if (Math.random() >= 0.08) return;
+    let t = (target && target.curHp > 0) ? target : null;
+    if (!t) {
+        let alive = mapState.mobs.filter(m => m && m.curHp > 0);
+        if (alive.length === 0) return;
+        t = alive[Math.floor(Math.random() * alive.length)];
+    }
+    procMoonburst(t);
+}
+// ===== 魔擊（力量魔法杖）：對指定目標打一次「必定命中且必定重擊」的物理攻擊，沿用一般攻擊完整傷害計算 =====
+function procMagicStrike(t) {
+    if (!t || t.curHp <= 0) return;
+    let wpn = player.eq.wpn ? DB.items[player.eq.wpn.id] : null;
+    let dice = wpn ? (t.s === 'L' ? wpn.dmgL : wpn.dmgS) : 2;
+    let res = getPhysicalDmg(dice, t, wpn, null, true);   // forceHeavy=true：必定命中＋重擊
+    t.curHp -= res.dmg;
+    t.justHit = getWpnEle(player.eq.wpn, wpn);
+    mobWake(t);
+    let mark = res.crit ? '會心一擊' : '重擊';
+    logCombat(`<span class="font-bold" style="color:#d8b4fe;text-shadow:0 0 6px #a855f7;">【魔擊】</span>對 <span class="${getMobColor(t.lv)}">${t.n}</span> 造成 ${res.dmg} 點傷害（${mark}!）。`, 'player-crit');
+    if (t.curHp <= 0) {
+        let realIdx = mapState.mobs.findIndex(m => m && m.uid === t.uid);
+        if (realIdx !== -1) killMob(realIdx);
+    } else {
+        renderMobs();
+    }
+}
+// 魔擊 proc 判定：裝備力量魔法杖時，每次攻擊(命中與否) 力量/60 機率；主目標已死則轉移到場上隨機存活怪
+function magicStrikeProc(target) {
+    let wpn = player.eq.wpn ? DB.items[player.eq.wpn.id] : null;
+    if (!wpn || wpn.eff !== 'magicstrike') return;
+    if (Math.random() >= ((player.d.str || 0) / 60)) return;   // 觸發機率 = 裝備者力量 / 60
+    let t = (target && target.curHp > 0) ? target : null;
+    if (!t) {
+        let alive = mapState.mobs.filter(m => m && m.curHp > 0);
+        if (alive.length === 0) return;
+        t = alive[Math.floor(Math.random() * alive.length)];
+    }
+    procMagicStrike(t);
+}
+// ===== 連射：發動攻擊時依機率追加 1~3 箭；每箭各自接受命中判定(可未命中/重擊/爆擊)，傷害為該箭結算的 30%；每箭也各判定月光爆裂 =====
+function rapidfireProc(arrowData) {
+    let wpn = player.eq.wpn ? DB.items[player.eq.wpn.id] : null;
+    if (!wpn || !wpn.rapidfire) return;
+    if (roll(1, 100) > wpn.rapidfire) return;
+    let _rfN = roll(1, 3);
+    for (let _r = 0; _r < _rfN; _r++) {
+        let _alive = [];
+        mapState.mobs.forEach((m, i) => { if (m && m.curHp > 0) _alive.push(i); });
+        if (_alive.length === 0) break;
+        let _ti = _alive[Math.floor(Math.random() * _alive.length)];
+        let _t = mapState.mobs[_ti];
+        // 每箭各自接受命中判定（可能未命中，也可能重擊/爆擊）
+        let _dice = _t.s === 'L' ? wpn.dmgL : wpn.dmgS;
+        if (arrowData) _dice = _t.s === 'L' ? (wpn.dmgL + arrowData.dmgL) : (wpn.dmgS + arrowData.dmgS);
+        let _res = getPhysicalDmg(_dice, _t, wpn, arrowData);
+        if (!_res.hit) {
+            logCombat(`【連射】箭矢射向 <span class="${getMobColor(_t.lv)}">${_t.n}</span> 但未命中。`, 'miss');
+            continue;
+        }
+        let _rfDmg = Math.max(1, Math.floor(_res.dmg * 0.30));   // 連射箭矢：該箭結算傷害的 30%
+        _t.curHp -= _rfDmg;
+        _t.justHit = getWpnEle(player.eq.wpn, wpn);
+        mobWake(_t);
+        let _mark = (_res.heavy && _res.crit) ? '會心一擊' : (_res.crit ? '爆擊' : (_res.heavy ? '重擊' : ''));
+        logCombat(`【連射】箭矢命中 <span class="${getMobColor(_t.lv)}">${_t.n}</span>，造成 ${_rfDmg} 點傷害${_mark ? '（' + _mark + '!）' : ''}。`, (_res.heavy || _res.crit) ? 'player-crit' : 'player');
+        if (_t.curHp <= 0) killMob(_ti);
+        moonburstProc(_t);   // 熾炎天使弓：每支連射箭矢也有機會觸發月光爆裂（主目標死亡自動轉移）
+    }
+    renderMobs();
+}
 function playerAttack() {
     let target = getTarget();
     if(!target) return;
 
     if (target.er && roll(1, 100) <= target.er) {
         logCombat(`<span class="${getMobColor(target.lv)}">${target.n}</span> 成功迴避攻擊。`, 'evade');
+        wandLightArrowProc(target);
+        magicStrikeProc(target);
         return;
     }
 
@@ -3220,19 +3362,17 @@ function playerAttack() {
         logCombat(`對 <span class="${getMobColor(target.lv)}">${target.n}</span> 的攻擊未命中。`, 'miss');
     }
 
-    // === 熾炎天使弓：發動攻擊時 8% 額外觸發「月光爆裂」===
-    // 對目標造成 1D30 + 2×強化等級 的風屬性固定傷害（不受魔法傷害公式影響）
-    if (wpn && wpn.eff === 'moonburst' && target.curHp > 0 && Math.random() < 0.08) {
-        let en = (player.eq.wpn && player.eq.wpn.en) || 0;
-        let mbDmg = roll(1, 30) + 2 * en;
-        let counterTxt = '';
-        if (isElementCounter('wind', target.e)) { mbDmg += 6; counterTxt = ' <span class="text-emerald-300 font-bold">(剋屬性!)</span>'; }  // 風剋水：額外 +6 固定傷害
-        target.curHp -= mbDmg;
-        target.justHit = 'wind';
-        logCombat(`<span class="font-bold" style="color:#67e8f9;text-shadow:0 0 6px #06b6d4;">【月光爆裂】</span>對 <span class="${getMobColor(target.lv)}">${target.n}</span> 造成 ${mbDmg} 點風屬性傷害！${counterTxt}`, 'player-crit');
-        if (target.curHp <= 0) killMob(mapState.targetIdx);
-        else renderMobs();
-    }
+    // 連射（弓）：發動攻擊即判定（不論主攻擊命中與否）；每箭各自接受命中判定
+    rapidfireProc(arrowData);
+
+    // === 熾炎天使弓：發動攻擊時 8% 觸發「月光爆裂」（主目標死亡則自動轉移到其他存活怪）===
+    moonburstProc(target);
+
+    // 法杖共鳴：一般攻擊(命中或未命中皆然)依機率免費施展光箭
+    wandLightArrowProc(target);
+
+    // 魔擊：一般攻擊(命中或未命中皆然)依機率追加一次必定命中重擊
+    magicStrikeProc(target);
 }
 
 function enemyPhysicalAttack(mob, idx, stunChance = 0) {
@@ -4207,6 +4347,14 @@ function castSkill(skId) {
                 else renderMobs();
             } else {
                 logCombat(`施放 ${sk.n} 未命中 <span class="${getMobColor(t.lv)}">${t.n}</span>。`, 'miss');
+            }
+
+            // 三重矢：連射發動即判定一次；月光爆裂依「命中次數」判定（每命中一箭各判定一次）
+            if (skId === 'sk_elf_triple') {
+                rapidfireProc(arrowData);   // 連射：發動攻擊即判定（不論三箭是否命中）；每箭各自命中判定
+                for (let _m = 0; _m < landed; _m++) moonburstProc(t);   // 月光爆裂：等同命中次數，各 8% 獨立判定（主目標死亡自動轉移）
+                wandLightArrowProc(t);   // 共鳴（裝弓時不生效，保留以求一致）
+                magicStrikeProc(t);      // 魔擊（裝弓時不生效，保留以求一致）
             }
             return true;
         } else {
@@ -5581,8 +5729,11 @@ function buildItemDescHTML(item) {
         if (d.eff === 'haste')      _eff.push('自我加速');
         if (d.eff === 'crush')      _eff.push('重擊');
         if (d.eff === 'cleave')     _eff.push('切割');
+        if (d.rapidfire)            _eff.push('連射 ' + d.rapidfire + '%');
         if (d.block)                _eff.push('格檔：' + d.block + '%');
         if (d.immStone)             _eff.push('免疫石化');
+        if (d.eff === 'magicstrike') _eff.push('魔擊');
+        if (typeof WAND_LIGHTARROW_IDS !== 'undefined' && WAND_LIGHTARROW_IDS.includes(item.id)) _eff.push('共鳴');
         if (_eff.length) desc += `<br><span class="text-rose-300 font-bold">特效：${_eff.join(' / ')}</span>`;
     }
     // 👆
@@ -6552,12 +6703,22 @@ function closeNpcInteraction() {
 const WH_KEY = 'lineage_idle_warehouse';
 const WH_MAX = 100;   // 倉庫格數上限
 const WH_NO_STORE = ['new_item_239','new_item_241','new_item_collar_husky','new_item_238','new_item_184','new_item_185'];   // 禁止存入倉庫：潘朵拉抽獎卷、王族搜索狀、四種項圈
+// 倉庫分類過濾（武器 / 防具 / 道具）：存入、取出共用同一個下拉清單
+let _whFilter = 'weapon';
+function whCategory(id){
+    let d = DB.items[id];
+    if(!d) return 'item';
+    if(d.type === 'wpn') return 'weapon';                       // 武器
+    if(d.type === 'arm' || d.type === 'acc') return 'armor';    // 防具（含飾品）
+    return 'item';                                              // 其餘皆道具
+}
+function whSetFilter(v){ _whFilter = v; renderWarehouseNPC(document.getElementById('interaction-content')); }
 function loadWarehouse(){
     try { let s = localStorage.getItem(WH_KEY); if(s){ let w = JSON.parse(s); return { items: w.items || [], gold: w.gold || 0 }; } } catch(e){}
     return { items: [], gold: 0 };
 }
 function saveWarehouse(w){ localStorage.setItem(WH_KEY, JSON.stringify({ items: w.items, gold: w.gold })); }
-function _whStackFind(arr, it){ return ((it.en||0)===0 && !it.lock) ? arr.find(x => x.id===it.id && (x.en||0)===0 && !x.lock) : null; }
+function _whStackFind(arr, it){ return ((it.en||0)===0 && !it.lock) ? arr.find(x => x.id===it.id && (x.en||0)===0 && !x.lock && (x.bless||false)===(it.bless||false) && (x.anc||false)===(it.anc||false) && (x.attr||null)===(it.attr||null)) : null; }
 function whDeposit(uidv){
     let w = loadWarehouse();
     let idx = player.inv.findIndex(i => i.uid === uidv);
@@ -6605,10 +6766,14 @@ function renderWarehouseNPC(div){
     }
     let w = loadWarehouse();
     let mkBtn = (it, act) => `<button onclick="${act}('${it.uid}')" class="btn w-full text-left py-1.5 px-2 text-sm bg-slate-800 hover:bg-slate-700 border-slate-600">${getItemFullName(it)}</button>`;
-    let invHtml = player.inv.length ? player.inv.map(it => WH_NO_STORE.includes(it.id)
+    let _invItems = player.inv.filter(it => whCategory(it.id) === _whFilter);
+    let _whItems  = w.items.filter(it => whCategory(it.id) === _whFilter);
+    let invHtml = _invItems.length ? _invItems.map(it => WH_NO_STORE.includes(it.id)
         ? `<div class="w-full text-left py-1.5 px-2 text-sm bg-slate-900/60 border border-slate-700 rounded opacity-50 cursor-not-allowed">${getItemFullName(it)} <span class="text-xs text-red-400">（不可存）</span></div>`
-        : mkBtn(it, 'whDeposit')).join('') : '<div class="text-slate-500 text-sm text-center py-4">背包沒有物品</div>';
-    let whHtml  = w.items.length ? w.items.map(it => mkBtn(it, 'whWithdraw')).join('') : '<div class="text-slate-500 text-sm text-center py-4">倉庫是空的</div>';
+        : mkBtn(it, 'whDeposit')).join('') : '<div class="text-slate-500 text-sm text-center py-4">此分類背包沒有物品</div>';
+    let whHtml  = _whItems.length ? _whItems.map(it => mkBtn(it, 'whWithdraw')).join('') : '<div class="text-slate-500 text-sm text-center py-4">此分類倉庫是空的</div>';
+    let _oi = document.getElementById('wh-inv-list'), _os = document.getElementById('wh-store-list');
+    let _whInvScroll = _oi ? _oi.scrollTop : 0, _whStoreScroll = _os ? _os.scrollTop : 0, _divScroll = div.scrollTop;
     div.innerHTML = `
     <div class="flex flex-col gap-3 p-1">
         <div class="text-slate-300 text-sm leading-relaxed">將物品或金幣存入倉庫，<b class="text-amber-300">三個存檔角色共用</b>。點背包物品＝存入；點倉庫物品＝取出。已裝備的物品無法存入（鎖定中的裝備可以存）。</div>
@@ -6618,17 +6783,29 @@ function renderWarehouseNPC(div){
             <button onclick="whGold('in')" class="btn py-1 px-3 text-sm bg-cyan-900 border-cyan-700 text-cyan-200 font-bold">存入 ▶</button>
             <button onclick="whGold('out')" class="btn py-1 px-3 text-sm bg-orange-900 border-orange-700 text-orange-200 font-bold">◀ 取出</button>
         </div>
+        <div class="flex items-center gap-2 text-sm">
+            <span class="text-slate-300 font-bold">物品分類：</span>
+            <select onchange="whSetFilter(this.value)" class="bg-slate-900 border border-slate-600 text-white rounded py-1 px-2 text-sm">
+                <option value="weapon" ${_whFilter==='weapon'?'selected':''}>武器</option>
+                <option value="armor" ${_whFilter==='armor'?'selected':''}>防具</option>
+                <option value="item" ${_whFilter==='item'?'selected':''}>道具</option>
+            </select>
+            <span class="text-slate-500 text-xs">（存入／取出共用此分類）</span>
+        </div>
         <div class="grid grid-cols-2 gap-3">
             <div class="flex flex-col min-h-0">
                 <div class="font-bold text-cyan-300 mb-1 text-sm">背包（點擊存入 ▶）</div>
-                <div class="flex flex-col gap-1 overflow-y-auto pr-1" style="max-height:340px">${invHtml}</div>
+                <div class="flex flex-col gap-1 overflow-y-auto pr-1" id="wh-inv-list" style="max-height:340px">${invHtml}</div>
             </div>
             <div class="flex flex-col min-h-0">
                 <div class="font-bold text-amber-300 mb-1 text-sm flex justify-between">倉庫（點擊取出 ◀）<span class="text-slate-400 font-normal">${w.items.length}/${WH_MAX}</span></div>
-                <div class="flex flex-col gap-1 overflow-y-auto pr-1" style="max-height:340px">${whHtml}</div>
+                <div class="flex flex-col gap-1 overflow-y-auto pr-1" id="wh-store-list" style="max-height:340px">${whHtml}</div>
             </div>
         </div>
     </div>`;
+    div.scrollTop = _divScroll;
+    let _ni = document.getElementById('wh-inv-list'); if(_ni) _ni.scrollTop = _whInvScroll;
+    let _ns = document.getElementById('wh-store-list'); if(_ns) _ns.scrollTop = _whStoreScroll;
 }
 // ===== 血盟 NPC：依詩蒂(海音) / 特羅斯(歐瑞) =====
 const PLEDGE_CFG = {
