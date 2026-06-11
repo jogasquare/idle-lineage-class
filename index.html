@@ -7086,12 +7086,38 @@ function loadWarehouse(){
 }
 function saveWarehouse(w){ localStorage.setItem(WH_KEY, JSON.stringify({ items: w.items, gold: w.gold })); }
 function _whStackFind(arr, it){ return ((it.en||0)===0 && !it.lock) ? arr.find(x => x.id===it.id && (x.en||0)===0 && !x.lock && (x.bless||false)===(it.bless||false) && (x.anc||false)===(it.anc||false) && (x.attr||null)===(it.attr||null)) : null; }
+// 物品完整簽章：名字(id)+強化值(en)+詞綴(祝福/遠古/屬性)；一鍵存入用來比對「完全相同」
+function whSig(it){ return it.id + '|' + (it.en||0) + '|' + (it.bless?1:0) + '|' + (it.anc?1:0) + '|' + (it.attr||''); }
+// 一鍵存入：背包中「與倉庫現有物品 詞綴+名字+強化值 完全相同」者自動存入（鎖定物品保護、不可存物品略過）
+function whOneClickDeposit(){
+    let w = loadWarehouse();
+    let whSigs = new Set(w.items.map(whSig));   // 倉庫現有物品簽章集合
+    let deposited = 0, full = false;
+    for(let it of player.inv.slice()){          // 用副本走訪，過程會改動 player.inv
+        if(WH_NO_STORE.includes(it.id)) continue;   // 不可存入
+        if(it.lock) continue;                        // 鎖定物品保護，不自動存入
+        if(!whSigs.has(whSig(it))) continue;         // 倉庫沒有完全相同的 → 跳過
+        let idx = player.inv.findIndex(i => i.uid === it.uid);
+        if(idx < 0) continue;
+        let cur = player.inv[idx];
+        let stack = _whStackFind(w.items, cur);
+        if(!stack && w.items.length >= WH_MAX){ full = true; break; }
+        player.inv.splice(idx, 1);
+        if(stack){ stack.cnt += cur.cnt; } else { w.items.push(cur); whSigs.add(whSig(cur)); }
+        deposited++;
+    }
+    saveWarehouse(w); saveGame(); renderTabs(true); updateUI();
+    renderWarehouseNPC(document.getElementById('interaction-content'));
+    if(deposited > 0) logSys(`<span class="text-cyan-300 font-bold">一鍵存入：已存入 ${deposited} 項與倉庫現有物品相同的物品${full ? '（倉庫已滿，部分未存入）' : ''}。</span>`);
+    else logSys(full ? `<span class="text-red-400">倉庫已滿，無法存入。</span>` : `背包中沒有與倉庫現有物品完全相同的可存入物品。`);
+}
 function whDeposit(uidv){
     let w = loadWarehouse();
     let idx = player.inv.findIndex(i => i.uid === uidv);
     if(idx < 0) return;
     let it = player.inv[idx];
     if(WH_NO_STORE.includes(it.id)){ logSys(`<span class="text-red-400">此物品無法存入倉庫。</span>`); return; }
+    if(it.lock){ logSys(`<span class="text-red-400">鎖定物品需先解鎖才能存入倉庫。</span>`); return; }
     // 可堆疊(en0未鎖)合併進既有倉庫堆疊不佔新格；否則需有空格
     let stack = _whStackFind(w.items, it);
     if(!stack && w.items.length >= WH_MAX){ logSys(`<span class="text-red-400">倉庫已滿（上限 ${WH_MAX} 格）。</span>`); return; }
@@ -7135,20 +7161,20 @@ function renderWarehouseNPC(div){
     let mkBtn = (it, act) => `<button onclick="${act}('${it.uid}')" class="btn w-full text-left py-1.5 px-2 text-sm bg-slate-800 hover:bg-slate-700 border-slate-600">${getItemFullName(it)}</button>`;
     let _invItems = player.inv.filter(it => whCategory(it.id) === _whFilter);
     let _whItems  = w.items.filter(it => whCategory(it.id) === _whFilter);
-    let invHtml = _invItems.length ? _invItems.map(it => WH_NO_STORE.includes(it.id)
-        ? `<div class="w-full text-left py-1.5 px-2 text-sm bg-slate-900/60 border border-slate-700 rounded opacity-50 cursor-not-allowed">${getItemFullName(it)} <span class="text-xs text-red-400">（不可存）</span></div>`
+    let invHtml = _invItems.length ? _invItems.map(it => (WH_NO_STORE.includes(it.id) || it.lock)
+        ? `<div class="w-full text-left py-1.5 px-2 text-sm bg-slate-900/60 border border-slate-700 rounded opacity-50 cursor-not-allowed">${getItemFullName(it)} <span class="text-xs text-red-400">（${(it.lock && !WH_NO_STORE.includes(it.id)) ? '鎖定，需解鎖' : '不可存'}）</span></div>`
         : mkBtn(it, 'whDeposit')).join('') : '<div class="text-slate-500 text-sm text-center py-4">此分類背包沒有物品</div>';
     let whHtml  = _whItems.length ? _whItems.map(it => mkBtn(it, 'whWithdraw')).join('') : '<div class="text-slate-500 text-sm text-center py-4">此分類倉庫是空的</div>';
     let _oi = document.getElementById('wh-inv-list'), _os = document.getElementById('wh-store-list');
     let _whInvScroll = _oi ? _oi.scrollTop : 0, _whStoreScroll = _os ? _os.scrollTop : 0, _divScroll = div.scrollTop;
     div.innerHTML = `
     <div class="flex flex-col gap-3 p-1">
-        <div class="text-slate-300 text-sm leading-relaxed">將物品或金幣存入倉庫，<b class="text-amber-300">三個存檔角色共用</b>。點背包物品＝存入；點倉庫物品＝取出。已裝備的物品無法存入（鎖定中的裝備可以存）。</div>
+        <div class="text-slate-300 text-sm leading-relaxed">將物品或金幣存入倉庫，<b class="text-amber-300">三個存檔角色共用</b>。點背包物品＝存入；點倉庫物品＝取出。已裝備或鎖定中的物品無法存入（需先解鎖）。</div>
         <div class="flex items-center gap-2 bg-slate-800/60 border border-slate-600 rounded p-3 text-sm flex-wrap">
             <span>金幣　背包：<span class="text-yellow-400 font-bold">${player.gold}</span>　倉庫：<span class="text-yellow-400 font-bold">${w.gold||0}</span></span>
-            <input id="wh-gold-amt" type="number" min="1" value="1000" class="w-24 bg-slate-900 border border-slate-600 text-center text-white rounded py-1 ms-auto">
-            <button onclick="whGold('in')" class="btn py-1 px-3 text-sm bg-cyan-900 border-cyan-700 text-cyan-200 font-bold">存入 ▶</button>
-            <button onclick="whGold('out')" class="btn py-1 px-3 text-sm bg-orange-900 border-orange-700 text-orange-200 font-bold">◀ 取出</button>
+            <input id="wh-gold-amt" type="number" min="1" value="1000" class="w-24 bg-slate-900 border border-slate-600 text-center text-white rounded h-8 ms-auto">
+            <button onclick="whGold('in')" class="btn px-4 text-sm font-bold h-8 inline-flex items-center justify-center" style="background: linear-gradient(135deg, #0c4a5e 0%, #0e7490 28%, #0a3d4d 52%, #11657e 76%, #093440 100%); color: #a5f3fc; border-color: #0891b2;">存入 ▶</button>
+            <button onclick="whGold('out')" class="btn px-4 text-sm font-bold h-8 inline-flex items-center justify-center" style="background: linear-gradient(135deg, #6b2a10 0%, #b3490e 28%, #5a230e 52%, #9a3e0c 76%, #4a1d0c 100%); color: #fed7aa; border-color: #c2410c;">◀ 取出</button>
         </div>
         <div class="flex items-center gap-2 text-sm">
             <span class="text-slate-300 font-bold">物品分類：</span>
@@ -7158,6 +7184,7 @@ function renderWarehouseNPC(div){
                 <option value="item" ${_whFilter==='item'?'selected':''}>道具</option>
             </select>
             <span class="text-slate-500 text-xs">（存入／取出共用此分類）</span>
+            <button onclick="whOneClickDeposit()" class="btn px-4 text-sm font-bold h-8 inline-flex items-center justify-center ms-auto" style="background: linear-gradient(135deg, #0c4a5e 0%, #0e7490 28%, #0a3d4d 52%, #11657e 76%, #093440 100%); color: #a5f3fc; border-color: #0891b2;" title="把背包中與倉庫現有物品（詞綴+名字+強化值完全相同）的物品自動存入；鎖定物品不動">一鍵存入</button>
         </div>
         <div class="grid grid-cols-2 gap-3">
             <div class="flex flex-col min-h-0">
