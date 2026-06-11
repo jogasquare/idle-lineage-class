@@ -3549,9 +3549,9 @@ function enemyPhysicalAttack(mob, idx, stunChance = 0) {
         }
         else updateUI();
 
-        // 單手劍反擊：受到敵人一般攻擊命中時觸發。一般 30% 機率；若裝備盾牌且本次觸發格檔(blocked)則必定反擊
+        // 單手劍反擊：受到敵人一般攻擊命中時觸發。一般 50% 機率；若裝備盾牌且本次觸發格檔(blocked)則必定反擊
         if (!player.dead && mob.curHp > 0 && player.eq.wpn && getWeaponTags(player.eq.wpn.id).includes('單手劍')) {
-            if (Math.random() < (blocked ? 1 : 0.30)) procCounter(mob);
+            if (Math.random() < (blocked ? 1 : 0.50)) procCounter(mob);
         }
     } else {
         logCombat(`<span class="${getMobColor(mob.lv)}">${mob.n}</span> 的攻擊未命中。`, 'miss');
