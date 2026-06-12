@@ -4303,13 +4303,14 @@ function killMob(idx) {
     }
 
     // === 🔮 席琳結晶：席琳的世界限定掉落（固定機率，不吃掉落倍率）===
-    // 血盟與 Lv20 以下不掉（血盟本就無 _sherine）；21~40 非BOSS 0.001%、41+ 非BOSS 0.003%、
-    // 夢幻之島BOSS 0.01%、三大龍（安塔瑞斯/法利昂/巴拉卡斯）10%、其餘BOSS 0.1%
+    // 血盟與 Lv20 以下不掉（血盟本就無 _sherine）；21~30 非BOSS 0.001%、31~40 非BOSS 0.002%、
+    // 41+ 非BOSS 0.003%、夢幻之島BOSS 0.01%、三大龍（安塔瑞斯/法利昂/巴拉卡斯）10%、其餘BOSS 0.1%
     if (mob._sherine) {
         let _cr = 0;
         if (['安塔瑞斯', '法利昂', '巴拉卡斯'].includes(mob.n)) _cr = 0.10;
         else if (mob.boss) _cr = (mapState.current === 'dream_island') ? 0.0001 : 0.001;
         else if ((mob.lv || 1) >= 41) _cr = 0.00003;
+        else if ((mob.lv || 1) >= 31) _cr = 0.00002;
         else if ((mob.lv || 1) >= 21) _cr = 0.00001;
         if (_cr > 0 && Math.random() < _cr) {
             gainItem('sherine_crystal', 1);
