@@ -8366,6 +8366,36 @@ function leavePledge(faction) {
     renderPledgeNPC(document.getElementById('interaction-content'), faction);
 }
 
+// ===== 🔮 試煉「席琳兌換」共用 =====
+// 原需求道具外，額外消耗 1 個席琳結晶；兌換出的裝備必定附帶隨機一種席琳套裝效果。
+// 按鈕版面：原本的全寬兌換鈕改為左右各半（左＝一般兌換、右＝席琳兌換）。
+// 僅提供給「成品部位可附加套裝效果」的兌換（武器/頭盔/盔甲/手套/長靴/斗篷/腰帶）。
+function sherineExBtns(label, normalCall, sherineCall) {
+    return `<div class="flex gap-2 w-full">
+        <button class="btn flex-1 bg-blue-800 py-3 text-base font-bold" onclick="${normalCall}">兌換：${label}</button>
+        <button class="btn flex-1 bg-green-900 hover:bg-green-800 border-green-600 py-3 text-base font-bold" onclick="${sherineCall}" title="額外消耗 1 個席琳結晶：成品必定附帶一種席琳套裝效果"><span class="c-sherine">席琳兌換</span>：${label}</button>
+    </div>`;
+}
+// 席琳兌換前置檢查（於原材料檢查通過後、扣除材料前呼叫）：沒有結晶 → 提示並中止
+function sherineExCheck(sherine) {
+    if (!sherine) return true;
+    if (!player.inv.some(i => i.id === 'sherine_crystal' && i.cnt > 0)) {
+        logSys('<span class="text-red-400 font-bold">材料不足，無法兌換。</span><span class="text-red-300">（尚缺：席琳結晶 1）</span>');
+        return false;
+    }
+    return true;
+}
+// 席琳兌換發放獎勵：扣 1 個結晶並使成品必定附帶套裝效果（取代各兌換函式中的 gainItem）
+function sherineExGain(rewardId, sherine) {
+    if (sherine) {
+        let st = player.inv.find(i => i.id === 'sherine_crystal' && i.cnt > 0);
+        if (st) { st.cnt--; if (st.cnt <= 0) player.inv = player.inv.filter(i => i.cnt > 0); }
+        _forceSherineSet = true;
+    }
+    gainItem(rewardId, 1, false, false);   // forceNormal=false：詞綴機率與一般兌換相同
+    _forceSherineSet = false;
+}
+
 function renderRickyQuest(div) {
     if (player.cls !== 'knight') {
         div.innerHTML = `<div class="p-6 text-red-400">瑞奇：這是專屬於騎士的榮耀試煉，請回吧。</div>`;
@@ -8384,7 +8414,7 @@ function renderRickyQuest(div) {
     if (hasAll) {
         // 👇 這裡的 'arm_redknight_hood' 請改成你資料庫中「紅騎士頭巾」的真實 ID
         html += `<div class="p-4">
-            <button class="btn w-full bg-blue-800 py-3 text-lg font-bold" onclick="doRickyExchange('arm_53')">兌換：紅騎士頭巾</button>
+            ${sherineExBtns('紅騎士頭巾', "doRickyExchange('arm_53')", "doRickyExchange('arm_53', true)")}
         </div>`;
     }
     div.innerHTML = html;
@@ -8436,10 +8466,11 @@ function doJamesExchange(rewardId) {
     renderTabs();
 }
 
-function doRickyExchange(rewardId) {
+function doRickyExchange(rewardId, sherine) {   // 🔮 sherine=true：席琳兌換（+1 席琳結晶，必帶套裝效果）
     // 👇 一樣，這裡請對應上面設定的材料 ID
     let reqIds = ['new_item_196', 'new_item_198', 'new_item_206'];
     if (!reqIds.every(id => player.inv.find(i => i.id === id && i.cnt >= 1))) return;
+    if (!sherineExCheck(sherine)) return;
 
     // 扣除材料
     reqIds.forEach(id => {
@@ -8449,7 +8480,7 @@ function doRickyExchange(rewardId) {
     });
 
     // 發放獎勵裝備
-    gainItem(rewardId, 1, false, false);   // forceNormal=false：武器/防具/飾品同樣有 1/100 屬性/祝福/遠古機率
+    sherineExGain(rewardId, sherine);
     saveGame();   // 兌換取得物品後立即存檔
     logSys(`瑞奇：真正的騎士！你獲得了 ${DB.items[rewardId].n}。`);
     closeNpcInteraction();
@@ -8471,8 +8502,8 @@ function renderOsQuest(div) {
 
     if (hasAll) {
         html += `<div class="grid grid-cols-1 gap-3 p-4">
-            <button class="btn bg-blue-800 py-3" onclick="doOsExchange('arm_50')">兌換：精靈敏捷頭盔</button>
-            <button class="btn bg-blue-800 py-3" onclick="doOsExchange('arm_51')">兌換：精靈體質頭盔</button>
+            ${sherineExBtns('精靈敏捷頭盔', "doOsExchange('arm_50')", "doOsExchange('arm_50', true)")}
+            ${sherineExBtns('精靈體質頭盔', "doOsExchange('arm_51')", "doOsExchange('arm_51', true)")}
         </div>`;
     }
     div.innerHTML = html;
@@ -8498,7 +8529,7 @@ function renderTarasQuest(div) {
         <div class="text-slate-300 text-sm mb-3">帶來<b>不死族的鑰匙</b>與<b>不死族的骨頭</b>各一個，換取蘊含魔力的水晶魔杖。<br>
         目前收集：${hasCrystal ? '<span class="text-green-400 font-bold">已收集完成！</span>' : '<span class="text-red-400">材料不足</span>'}</div>`;
     if (hasCrystal) {
-        html += `<button class="btn w-full bg-blue-800 py-3 text-lg font-bold" onclick="doTarasExchange('wpn_crystalwand')">兌換：水晶魔杖</button>`;
+        html += sherineExBtns('水晶魔杖', "doTarasExchange('wpn_crystalwand')", "doTarasExchange('wpn_crystalwand', true)");
     }
     html += `</div>`;
 
@@ -8509,8 +8540,8 @@ function renderTarasQuest(div) {
         目前收集：${hasMana ? '<span class="text-green-400 font-bold">已收集完成！</span>' : '<span class="text-red-400">材料不足</span>'}</div>`;
     if (hasMana) {
         html += `<div class="grid grid-cols-1 gap-3">
-            <button class="btn bg-blue-800 py-3 text-lg font-bold" onclick="doTarasManaExchange('wpn_manawand')">兌換：瑪那魔杖</button>
-            <button class="btn bg-blue-800 py-3 text-lg font-bold" onclick="doTarasManaExchange('arm_89')">兌換：瑪那斗篷</button>
+            ${sherineExBtns('瑪那魔杖', "doTarasManaExchange('wpn_manawand')", "doTarasManaExchange('wpn_manawand', true)")}
+            ${sherineExBtns('瑪那斗篷', "doTarasManaExchange('arm_89')", "doTarasManaExchange('arm_89', true)")}
         </div>`;
     }
     html += `</div>`;
@@ -8541,7 +8572,7 @@ function renderGunterQuest(div) {
     
     // 👇 兌換紅騎士之劍 ('wpn_red_knight')
     if (hasClaw) {
-        actions += `<button class="btn w-full bg-blue-800 py-3 text-lg font-bold mb-3" onclick="doGunterExchange('${clawId}', 'wpn_redknight')">兌換：紅騎士之劍</button>`;
+        actions += `<div class="mb-3">${sherineExBtns('紅騎士之劍', `doGunterExchange('${clawId}', 'wpn_redknight')`, `doGunterExchange('${clawId}', 'wpn_redknight', true)`)}</div>`;
     }
     
     // 👇 兌換紅騎士盾牌 ('shd_red_knight')
@@ -8600,9 +8631,10 @@ function doMotherExchange(reqId, rewardId) {
     renderTabs();
 }
 
-function doGunterExchange(reqId, rewardId) {
+function doGunterExchange(reqId, rewardId, sherine) {   // 🔮 sherine=true：席琳兌換（+1 席琳結晶，必帶套裝效果）
     let item = player.inv.find(i => i.id === reqId);
     if (!item || item.cnt < 1) return;
+    if (!sherineExCheck(sherine)) return;
 
     // 扣除材料 (1個)
     item.cnt--;
@@ -8611,17 +8643,18 @@ function doGunterExchange(reqId, rewardId) {
     }
 
     // 發放獎勵裝備
-    gainItem(rewardId, 1, false, false);   // forceNormal=false：武器/防具/飾品同樣有 1/100 屬性/祝福/遠古機率
+    sherineExGain(rewardId, sherine);
     saveGame();   // 兌換取得物品後立即存檔
     logSys(`甘特：你證明了你的實力！獲得了 ${DB.items[rewardId].n}。`);
     closeNpcInteraction();
     renderTabs();
 }
 
-function doTarasExchange(rewardId) {
+function doTarasExchange(rewardId, sherine) {   // 🔮 sherine=true：席琳兌換（+1 席琳結晶，必帶套裝效果）
     // 👇 一樣，這裡請對應上面設定的材料 ID
     let reqIds = ['new_item_214', 'new_item_212'];
     if (!reqIds.every(id => player.inv.find(i => i.id === id && i.cnt >= 1))) return;
+    if (!sherineExCheck(sherine)) return;
 
     // 扣除材料
     reqIds.forEach(id => {
@@ -8630,17 +8663,18 @@ function doTarasExchange(rewardId) {
         if (item.cnt <= 0) player.inv = player.inv.filter(i => i.uid !== item.uid);
     });
 
-    gainItem(rewardId, 1, false, false);   // forceNormal=false：武器/防具/飾品同樣有 1/100 屬性/祝福/遠古機率
+    sherineExGain(rewardId, sherine);
     saveGame();   // 兌換取得物品後立即存檔
     logSys(`塔拉斯：試煉通過！你獲得了 ${DB.items[rewardId].n}。`);
     closeNpcInteraction();
     renderTabs();
 }
 
-function doTarasManaExchange(rewardId) {
+function doTarasManaExchange(rewardId, sherine) {   // 🔮 sherine=true：席琳兌換（+1 席琳結晶，必帶套裝效果）
     // 瑪那試煉：變形怪的血 → 瑪那魔杖 或 瑪那斗篷
     let reqIds = ['new_item_240'];
     if (!reqIds.every(id => player.inv.find(i => i.id === id && i.cnt >= 1))) return;
+    if (!sherineExCheck(sherine)) return;
 
     // 扣除材料
     reqIds.forEach(id => {
@@ -8649,7 +8683,7 @@ function doTarasManaExchange(rewardId) {
         if (item.cnt <= 0) player.inv = player.inv.filter(i => i.uid !== item.uid);
     });
 
-    gainItem(rewardId, 1, false, false);   // forceNormal=false：武器/防具/飾品同樣有 1/100 屬性/祝福/遠古機率
+    sherineExGain(rewardId, sherine);
     saveGame();   // 兌換取得物品後立即存檔
     logSys(`塔拉斯：試煉通過！你獲得了 ${DB.items[rewardId].n}。`);
     closeNpcInteraction();
@@ -8673,7 +8707,7 @@ function renderMashaQuest(div) {
             <div class="text-slate-300 text-sm mb-3">所需材料：<b>夜之視野</b> ×1、<b>古代鑰匙</b> ×1<br>
             目前收集：${kHas ? '<span class="text-green-400 font-bold">已收集完成！</span>' : '<span class="text-red-400">材料不足</span>'}</div>`;
         if (kHas) {
-            kHtml += `<button class="btn w-full bg-blue-800 py-3 text-lg font-bold" onclick="doMashaKnightExchange('acc_134')">兌換：勇敢皮帶</button>`;
+            kHtml += sherineExBtns('勇敢皮帶', "doMashaKnightExchange('acc_134')", "doMashaKnightExchange('acc_134', true)");
         }
         kHtml += `</div>`;
         div.innerHTML = kHtml;
@@ -8690,7 +8724,7 @@ function renderMashaQuest(div) {
         目前收集：${has ? '<span class="text-green-400 font-bold">已收集完成！</span>' : '<span class="text-red-400">材料不足</span>'}</div>`;
     if (has) {
         html += `<div class="grid grid-cols-1 gap-3">
-            <button class="btn bg-blue-800 py-3 text-lg font-bold" onclick="doMashaExchange('arm_102')">兌換：保護者手套</button>
+            ${sherineExBtns('保護者手套', "doMashaExchange('arm_102')", "doMashaExchange('arm_102', true)")}
             <button class="btn bg-blue-800 py-3 text-lg font-bold" onclick="doMashaExchange('bk_elf_summon2')">兌換：精靈水晶(召喚強力屬性精靈)</button>
         </div>`;
     }
@@ -8698,10 +8732,11 @@ function renderMashaQuest(div) {
     div.innerHTML = html;
 }
 
-function doMashaExchange(rewardId) {
+function doMashaExchange(rewardId, sherine) {   // 🔮 sherine=true：席琳兌換（+1 席琳結晶，必帶套裝效果）
     if (player.cls !== 'elf') return;
     let reqIds = ['item_blueflute', 'item_ancientkey'];
     if (!reqIds.every(id => player.inv.find(i => i.id === id && i.cnt >= 1))) return;
+    if (!sherineExCheck(sherine)) return;
 
     // 扣除材料
     reqIds.forEach(id => {
@@ -8710,17 +8745,18 @@ function doMashaExchange(rewardId) {
         if (item.cnt <= 0) player.inv = player.inv.filter(i => i.uid !== item.uid);
     });
 
-    gainItem(rewardId, 1, false, false);   // forceNormal=false：武器/防具/飾品同樣有 1/100 屬性/祝福/遠古機率
+    sherineExGain(rewardId, sherine);
     saveGame();   // 兌換取得物品後立即存檔
     logSys(`馬沙：試煉通過！你獲得了 ${DB.items[rewardId].n}。`);
     closeNpcInteraction();
     renderTabs();
 }
 
-function doMashaKnightExchange(rewardId) {
+function doMashaKnightExchange(rewardId, sherine) {   // 🔮 sherine=true：席琳兌換（+1 席琳結晶，必帶套裝效果）
     if (player.cls !== 'knight') return;
     let reqIds = ['item_nightvision', 'item_ancientkey'];
     if (!reqIds.every(id => player.inv.find(i => i.id === id && i.cnt >= 1))) return;
+    if (!sherineExCheck(sherine)) return;
 
     // 扣除材料
     reqIds.forEach(id => {
@@ -8729,17 +8765,18 @@ function doMashaKnightExchange(rewardId) {
         if (item.cnt <= 0) player.inv = player.inv.filter(i => i.uid !== item.uid);
     });
 
-    gainItem(rewardId, 1, false, false);   // forceNormal=false：武器/防具/飾品同樣有 1/100 屬性/祝福/遠古機率
+    sherineExGain(rewardId, sherine);
     saveGame();   // 兌換取得物品後立即存檔
     logSys(`馬沙：試煉通過！你獲得了 ${DB.items[rewardId].n}。`);
     closeNpcInteraction();
     renderTabs();
 }
 
-function doOsExchange(rewardId) {
+function doOsExchange(rewardId, sherine) {   // 🔮 sherine=true：席琳兌換（+1 席琳結晶，必帶套裝效果）
     let reqIds = ['new_item_199', 'new_item_200', 'new_item_201', 'new_item_202'];
     // 再次確認
     if (!reqIds.every(id => player.inv.find(i => i.id === id && i.cnt >= 1))) return;
+    if (!sherineExCheck(sherine)) return;
 
     // 扣除材料
     reqIds.forEach(id => {
@@ -8748,7 +8785,7 @@ function doOsExchange(rewardId) {
         if (item.cnt <= 0) player.inv = player.inv.filter(i => i.uid !== item.uid);
     });
 
-    gainItem(rewardId, 1, false, false);   // forceNormal=false：武器/防具/飾品同樣有 1/100 屬性/祝福/遠古機率
+    sherineExGain(rewardId, sherine);
     saveGame();   // 兌換取得物品後立即存檔
     logSys(`歐斯：試煉通過！你獲得了 ${DB.items[rewardId].n}。`);
     closeNpcInteraction();
