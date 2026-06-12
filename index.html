@@ -9859,6 +9859,21 @@ function renderJoelCraft(div, npcId) {
     div.innerHTML = html;
 }
 // 3. 執行製作扣除材料與發放物品
+// ===== 🔧 製作材料配色：所有「非裝備」的製作需求材料，名字統一薄荷綠 =====
+// 掃描全部配方的需求清單，物品類型不是 武器/防具/飾品 者套用 text-emerald-300；
+// 席琳結晶除外（保留專屬呼吸綠光 c-sherine）。
+(function initCraftMaterialColors() {
+    let seen = new Set();
+    for (let npc in CRAFT_RECIPES) {
+        (CRAFT_RECIPES[npc] || []).forEach(r => (r.req || []).forEach(q => {
+            if (q.id === 'gold' || q.id === 'sherine_crystal' || seen.has(q.id)) return;
+            seen.add(q.id);
+            let d = DB.items[q.id];
+            if (d && d.type !== 'wpn' && d.type !== 'arm' && d.type !== 'acc') d.c = 'text-emerald-300';
+        }));
+    }
+})();
+
 // ===== 遞迴製作：前置材料足夠即可直接製作（自動補製中間物品，消耗最底層材料）=====
 let RECIPE_BY_RESULT = null;
 function buildRecipeIndex() {
