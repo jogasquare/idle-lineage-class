@@ -4331,7 +4331,7 @@ function rollPledgeDropEnhance(safe) {
     return Math.min(lvl, safe);
 }
 
-// 野外+血盟敵人擊殺掉寶：1% 機率獲得 1 件物品（抽法同潘朵拉抽獎卷；武器/防具/飾品同樣 1% 各詞綴，且依機率附帶強化等級）
+// 野外+血盟敵人擊殺掉寶：1% 機率獲得 1 件物品（抽法同潘朵拉抽獎卷；詞綴走新制——只可能獲得「祝福的」1%，屬性/遠古改由象牙塔『碧恩』取得；仍依安定值附帶強化等級）
 function pledgeBonusDrop(mob) {
     if (Math.random() >= 0.01) return;   // 1% 機率
     let id = getWeightedGachaResult();
@@ -4340,10 +4340,9 @@ function pledgeBonusDrop(mob) {
     let isEquip = ((d0.type === 'wpn' && !d0.isArrow) || d0.type === 'arm' || d0.type === 'acc');
     let item;
     if (isEquip) {
-        // 詞綴：與潘朵拉/gainItem 相同，各 1%
-        let attr = (Math.random() < 0.01) ? rollAttrAffix() : false;
-        let bless = (Math.random() < 0.01);
-        let anc = (Math.random() < 0.01);
+        // 🔧 詞綴改走新制（同 gainItem/rollAffixesNew）：只可能獲得「祝福的」1%；屬性/遠古不再隨機掉落（改由象牙塔『碧恩』取得）
+        let _af = rollAffixesNew();
+        let attr = _af.attr, bless = _af.bless, anc = _af.anc;
         let en = rollPledgeDropEnhance(d0.safe || 0);   // 依物品安定值決定強化等級
         player.inv.push({ id: id, uid: uid(), cnt: 1, en: en, bless: bless, anc: anc, attr: attr, lock: false, junk: false });
         renderTabs();
@@ -5952,8 +5951,7 @@ function autoCastSpells() {
     if(healSk && hpPct <= healThr) castSkill(healSk);
 }
 
-// 詞綴抽取（新制）：單詞綴1% / 雙詞綴0.1% / 三詞綴0.01%（互斥）；屬性詞綴再依階級機率(rollAttrAffix)決定種類
-// 🔮 席琳的世界擊殺掉落（_sherineLootCtx 生效時）：單/雙/三詞綴機率一律 ×3
+// 詞綴抽取（新制）：掉落/製作/潘朵拉/血盟 等管道只會隨機產生「祝福的」(bless) 1%；不再有單/雙/三詞綴或屬性/遠古的隨機掉落。
 // 🔧 詞綴抽取：怪物掉落 / 製作 / 潘朵拉 / 血盟怪掉落 等管道「只可能獲得 祝福的」詞綴（1%）。
 //    屬性詞綴與遠古系詞綴不再由這些管道隨機產生（改由象牙塔『碧恩』的賦予祝福卷軸取得）。
 //    🔮 席琳的世界擊殺掉落仍套用 ×3（祝福機率 3%）。
