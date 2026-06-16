@@ -2104,7 +2104,7 @@ function sameItemSig(a, b) { return itemSig(a) === itemSig(b); }
 const SAVE_VERSION = 2;   // v1 = 未標版本的舊存檔
 const SAVE_DEFAULTS = {
     name: null, bonus: 0, panaceaUsed: 0, bloodPledge: null,
-    magicShieldCd: 0, reviveScrollCd: 0, lastMapByCat: {}, tracking: null, ismaelAccUsed: false, sherineWorld: false,
+    magicShieldCd: 0, reviveScrollCd: 0, lastMapByCat: {}, lastBattleMap: null, tracking: null, ismaelAccUsed: false, sherineWorld: false,
     masteryQuest: null, mastery: null, masteryChangeCnt: 0,
     elfEle: null, poly: null, summon: null, charmed: null, hot: null,
     manualCd: {}, blessings: {},
@@ -3437,7 +3437,7 @@ function tick() {
         if(!mapState.spawnAt) mapState.spawnAt = [null, null, null];
         let nowT = state.ticks;
         if(KING_ROOMS[mapState.current] && state._kbRespawnAt != null) {
-            // 🔧 軍王之室復活等待中：30 秒內不刷任何怪；時間到則消耗 1 把鑰匙、從頭重生軍王與兩側小怪（補跑期間延後到即時再執行）
+            // 🔧 軍王之室復活等待中：15 秒內不刷任何怪；時間到則消耗 1 把鑰匙、從頭重生軍王與兩側小怪（補跑期間延後到即時再執行）
             if(!state.ff && nowT >= state._kbRespawnAt) { state._kbRespawnAt = null; kbRoomRespawn(); }
         } else {
             for(let i=0; i<3; i++) {
@@ -5444,7 +5444,7 @@ function settleDeadMobs() {
     }
     if (changed) renderMobs();
     // 🔧 軍王之室：擊敗頭目（掉落已於 killMob 發放）後處理；補跑期間延後到回到即時再執行。
-    //   身上仍有「軍王的鑰匙」→ 留在室內，清空全部怪物，30 秒後消耗 1 把鑰匙從頭復活軍王；
+    //   身上仍有「軍王的鑰匙」→ 留在室內，清空全部怪物，15 秒後消耗 1 把鑰匙從頭復活軍王；
     //   無鑰匙 → 傳送回村/回城（原行為）。
     if (state._kbVictory && !state.ff) {
         state._kbVictory = false;
@@ -5453,9 +5453,9 @@ function settleDeadMobs() {
             mapState.mobs = [null, null, null];
             mapState.spawnAt = [null, null, null];
             mapState.targetIdx = -1;
-            state._kbRespawnAt = state.ticks + 300;   // 30 秒（300 tick）後復活
+            state._kbRespawnAt = state.ticks + 150;   // 15 秒（150 tick）後復活
             renderMobs(); updateUI();
-            logSys('<span class="text-amber-300 font-bold">⚔ 軍王已倒下！室內怪物盡數消散…</span> 30 秒後將消耗 <span class="text-amber-300">1 把軍王的鑰匙</span>，軍王再度甦醒。');
+            logSys('<span class="text-amber-300 font-bold">⚔ 軍王已倒下！室內怪物盡數消散…</span> 15 秒後將消耗 <span class="text-amber-300">1 把軍王的鑰匙</span>，軍王再度甦醒。');
         } else {
             kbVictoryTeleport();
         }
@@ -5471,7 +5471,7 @@ function kbVictoryTeleport() {
     player.lastMapByCat.special = 'training';
     saveGame();        // 傳送後存檔，使重新載入時人物位於村莊（而非已清空的BOSS房）
 }
-// 🔧 軍王之室：等待 30 秒後消耗 1 把「軍王的鑰匙」，從頭重生中央軍王與兩側小怪；沒鑰匙則保險傳送回村/回城
+// 🔧 軍王之室：等待 15 秒後消耗 1 把「軍王的鑰匙」，從頭重生中央軍王與兩側小怪；沒鑰匙則保險傳送回村/回城
 function kbRoomRespawn() {
     if (!KING_ROOMS[mapState.current]) { state._kbRespawnAt = null; return; }
     let _ki = player.inv.findIndex(i => i.id === 'item_king_key' && (i.cnt || 1) >= 1);
@@ -7812,7 +7812,20 @@ function updateUI() {
     try { renderPandoraBanner(); } catch (e) {}   // 🔧 潘朵拉黑市稀有商品公告橫幅
     try { renderSyslogPandora(); } catch (e) {}   // 🔧 系統日誌標題列右側：黑市拍賣中商品
     document.getElementById('st-lv').innerText = player.lv;
-    { let rb = document.getElementById('btn-return-town'); if (rb) rb.textContent = siegeVictoryActive() ? '回城' : '回村'; }
+    { let rb = document.getElementById('btn-return-town');
+      if (rb) {
+        if (mapState.current.startsWith('town_')) {   // 🔧 在村莊：按鈕變為藍色「出發」，一鍵回到上一張戰鬥地圖
+            rb.textContent = '出發';
+            rb.onclick = departToLastBattle;
+            rb.style.background = '#1d4ed8';            // 藍色，與回村/回城（綠色）區隔
+            rb.style.borderColor = '#93c5fd';
+        } else {                                        // 戰鬥地圖：維持原本回村/回城（綠色）
+            rb.textContent = siegeVictoryActive() ? '回城' : '回村';
+            rb.onclick = returnToTown;
+            rb.style.background = '';
+            rb.style.borderColor = '';
+        }
+      } }
     { let vb = document.getElementById('victory-badge'); if (vb) vb.style.display = siegeVictoryActive() ? 'inline-flex' : 'none'; }   // 攻城獲勝淡金黃標記（inline-flex 讓👑與文字水平置中）
     applyAreaBackground();   // 區域背景：地監/攻城→戰鬥區、城堡→村莊畫面
     
@@ -9329,6 +9342,26 @@ function returnToTown() {
     // 🔧 自軍王之室手動回城／回村：同樣將「特殊」記憶位置改為新兵修練場（避免下次自動回到需鑰匙的軍王之室）
     if (_wasKingRoom) { if (!player.lastMapByCat) player.lastMapByCat = {}; player.lastMapByCat.special = 'training'; saveGame(); }
 }
+// 🔧 村莊「出發」按鈕：一鍵回到上一張戰鬥地圖。軍王之室需鑰匙，無鑰匙顯示鑰匙不足。
+function departToLastBattle() {
+    if (player.statuses && (player.statuses.stone > 0 || player.statuses.paralyze > 0 || player.statuses.freeze > 0 || player.statuses.stun > 0)) {
+        logSys('你目前無法行動（石化／麻痺／冰凍／暈眩），無法出發。');
+        return;
+    }
+    let tgt = player.lastBattleMap;
+    if (!tgt || (!DB.maps[tgt] && !KING_ROOMS[tgt])) { logSys('<span class="text-slate-400">尚無上一張戰鬥地圖，請從地圖選單選擇前往。</span>'); return; }
+    if (KING_ROOMS[tgt] && !player.inv.some(i => i.id === 'item_king_key' && (i.cnt || 1) >= 1)) {
+        logSys('<span class="text-red-400">鑰匙不足，無法進入軍王之室。</span>');
+        return;
+    }
+    setMapSelectors(tgt);
+    if (document.getElementById('map-select').value !== tgt) {   // 目標目前不可前往（如攻城已結束、地圖未開放）
+        syncMapSelectors();
+        logSys('<span class="text-slate-400">上一張戰鬥地圖目前無法前往。</span>');
+        return;
+    }
+    changeMap();   // 走既有切換流程（軍王之室在此消耗 1 把鑰匙）
+}
 
 // ===== 攻城戰（第一階段：核心循環）=====
 function siegeWarrants() { return pledgeCountItem('new_item_241'); }   // 王族搜索狀數量
@@ -9740,6 +9773,7 @@ function changeMap(force) {
         }
     }
     mapState.current = document.getElementById('map-select').value;
+    if (!mapState.current.startsWith('town_')) player.lastBattleMap = mapState.current;   // 🔧 記住最後所在的戰鬥地圖，供村莊「出發」按鈕一鍵返回
     { let _c = mapCategoryOf(mapState.current); if(_c) { if(!player.lastMapByCat) player.lastMapByCat = {}; player.lastMapByCat[_c] = mapState.current; } }   // 記住各分類最後到過的地圖
     mapState.mobs = [null, null, null];
     state._kbRespawnAt = null;    // 🔧 離開/進入任何地圖即取消軍王之室未完成的復活倒數（避免殘留狀態）
