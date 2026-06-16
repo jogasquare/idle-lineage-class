@@ -1998,7 +1998,7 @@ const DB = {
         "pride_f18": ["pride_beholder", "pride_wolf", "pride_deathsword", "pride_stairs"],
         "pride_f19": ["pride_beholder", "pride_wolf", "pride_deathsword", "pride_stairs"],
         "pride_f20": ["pride_beholder", "pride_wolf", "pride_deathsword", "pride_phantom_boss"],
-        "pride_11_20": ["pride_beholder", "pride_wolf", "pride_deathsword", "pride_phantom_boss"],
+        "pride_11_20": ["succubus", "pride_wolf", "pride_mimic", "pride_beholder", "pride_deathsword", "pride_phantom_boss"],
         // 攀登 21~30 樓
         "pride_f21": ["pride_fireegg", "pride_nightmare", "pride_stairs"],
         "pride_f22": ["pride_fireegg", "pride_nightmare", "pride_hellhound", "pride_stairs"],
@@ -2010,7 +2010,7 @@ const DB = {
         "pride_f28": ["pride_ifrit", "pride_hellhound", "pride_imp", "pride_stairs"],
         "pride_f29": ["pride_ifrit", "pride_hellhound", "pride_imp", "pride_stairs"],
         "pride_f30": ["pride_ifrit", "pride_hellhound", "pride_imp", "pride_nightmare", "pride_vampire_boss"],
-        "pride_21_30": ["pride_ifrit", "pride_hellhound", "pride_imp", "pride_nightmare", "pride_vampire_boss"],
+        "pride_21_30": ["pride_ifrit", "pride_fireegg", "pride_hellhound", "pride_imp", "pride_nightmare", "pride_vampire_boss"],
     }
 }; // DB 結尾在這裡
 
@@ -5763,6 +5763,7 @@ function prideTeleportBlocked() {
 function enterPrideFloor(n) {
     saveSiegeBossHp();
     mapState.current = 'pride_f' + n;
+    player.lastBattleMap = mapState.current;   // 🗼 記錄攀登位置：回村後點「出發」會被導回傲慢之塔1樓（見 departToLastBattle）
     state.prideFloor = n;
     mapState.mobs = [null, null, null];
     state._kbRespawnAt = null;
@@ -9800,6 +9801,12 @@ function departToLastBattle() {
     if (tgt && SIEGE_OUTER_INNER.includes(tgt) && !(player.siege && player.siege.active)) {
         tgt = 'training';
         player.lastBattleMap = 'training';
+    }
+    // 🗼 傲慢之塔：上一個戰鬥地點若在塔內（攀登層或樓層區間）→ 一律導回 傲慢之塔1樓（入口），不直接重進樓層（避免重複消耗移動卷軸）
+    if (tgt && typeof tgt === 'string' && tgt.startsWith('pride_')) {
+        setMapSelectors('town_pride');
+        changeMap();
+        return;
     }
     if (!tgt || (!DB.maps[tgt] && !KING_ROOMS[tgt])) { logSys('<span class="text-slate-400">尚無上一張戰鬥地圖，請從地圖選單選擇前往。</span>'); return; }
     if (KING_ROOMS[tgt] && !player.inv.some(i => i.id === 'item_king_key' && (i.cnt || 1) >= 1)) {
