@@ -3111,10 +3111,10 @@ function petProcSpellDamage(skId, target) {
     let effMr = (target.st && target.st.mrhalf > 0) ? Math.floor((target.mr || 0) / 2) : (target.mr || 0);
     let tier = sk.tier || 1;
     let spCoef = (1 + 3 * (player.d.magicDmg || 0) / 16) * (1 + tier / 3);
-    let mageMult = (player.cls === 'mage') ? (1.5 + tier / 20) : 1.0;
+    // 🔧 夥伴/寵物的法術「不」套用法師職業階級加成（原 mageMult＝玩家為法師時 ×(1.5+階級/20)）：夥伴非玩家本人施法，故移除；仍吃玩家魔法傷害/技能階級係數與魔抗
     let core = _dice.reduce((s, dc) => s + roll(dc[0], dc[1]), 0) * spCoef;   // 多段骰子加總
     let dmg = Math.max(1, Math.floor((core + (player.d.extraMp || 0)) * mrMult(effMr)) - (target.dr || 0));
-    return Math.max(1, Math.floor(dmg * mageMult));
+    return dmg;
 }
 function petCollarCount(name) {
     let cid = PET_DEF[name] && PET_DEF[name].collar; if(!cid) return 0;
