@@ -4499,12 +4499,21 @@ function tick() {
                         logCombat(`夥伴 [${nm}] 的攻擊未命中。`, 'miss');
                     }
                     // 🐾 進化夥伴：攻擊時 10% 觸發 proc 法術（傷害＝玩家自身施法數值；必定命中、吃魔抗）
+                    // 🔧 依技能 target:"all" → 對全場敵人各自結算（各吃自身魔抗/DR）；單體技能僅打當前目標
                     if (pd.proc && target.curHp > 0 && Math.random() < 0.10) {
                         let _ps = DB.skills[pd.proc];
-                        let _pdmg = petProcSpellDamage(pd.proc, target);
-                        if (_ps && _pdmg > 0) {
-                            target.curHp -= _pdmg; target.justHit = _ps.ele || pd.ele; mobWake(target);
-                            logCombat(`夥伴 [${nm}] 額外施展 <span class="text-pink-300 font-bold">${_ps.n}</span>，造成 ${_pdmg} 點傷害！`, 'player-special');
+                        if (_ps) {
+                            let _pts = (_ps.target === 'all') ? mapState.mobs.filter(m => m && m.curHp > 0) : [target];
+                            let _ptexts = [];
+                            _pts.forEach(_pm => {
+                                let _pdmg = petProcSpellDamage(pd.proc, _pm);
+                                if (_pdmg > 0) {
+                                    _pm.curHp -= _pdmg; _pm.justHit = _ps.ele || pd.ele; mobWake(_pm);
+                                    _ptexts.push(`<span class="${getMobColor(_pm.lv)}">${_pm.n}</span> ${_pdmg}`);
+                                }
+                            });
+                            if (_ptexts.length) logCombat(`夥伴 [${nm}] 額外施展 <span class="text-pink-300 font-bold">${_ps.n}</span> → ${_ptexts.join('、')}`, 'player-special');
+                            _pts.forEach(_pm => { if (_pm.curHp <= 0) { let _ri = mapState.mobs.findIndex(m => m && m.uid === _pm.uid); if (_ri !== -1) killMob(_ri); } });
                         }
                     }
                 }
